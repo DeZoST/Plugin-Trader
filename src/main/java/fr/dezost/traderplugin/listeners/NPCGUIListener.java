@@ -25,11 +25,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.persistence.PersistentDataContainer;
+/*import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.NamespacedKey;
 
-import static fr.dezost.traderplugin.utils.ItemUtils.getItemPrice;
+import static fr.dezost.traderplugin.utils.ItemUtils.getItemPrice; */
 
 import java.util.List;
 import java.util.Objects;
@@ -388,21 +388,23 @@ public class NPCGUIListener implements Listener {
          */
     }
 
-    private int calculateTotalCost(ItemStack item, int quantity) {
-        if (item == null || quantity <= 0)
-            return 0;
-
-        ItemMeta meta = item.getItemMeta();
-        if (meta != null) {
-            PersistentDataContainer dataContainer = meta.getPersistentDataContainer();
-            NamespacedKey key = new NamespacedKey(plugin, "price");
-            if (dataContainer.has(key, PersistentDataType.INTEGER)) {
-                int pricePerItem = dataContainer.get(key, PersistentDataType.INTEGER);
-                return pricePerItem * quantity;
-            }
-        }
-        return 0;
-    }
+    /*
+     * private int calculateTotalCost(ItemStack item, int quantity) {
+     * if (item == null || quantity <= 0)
+     * return 0;
+     *
+     * ItemMeta meta = item.getItemMeta();
+     * if (meta != null) {
+     * PersistentDataContainer dataContainer = meta.getPersistentDataContainer();
+     * NamespacedKey key = new NamespacedKey(plugin, "price");
+     * if (dataContainer.has(key, PersistentDataType.INTEGER)) {
+     * int pricePerItem = dataContainer.get(key, PersistentDataType.INTEGER);
+     * return pricePerItem * quantity;
+     * }
+     * }
+     * return 0;
+     * }
+     */
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {

@@ -1,6 +1,6 @@
 package fr.dezost.traderplugin.utils;
 
-import fr.dezost.traderplugin.TraderPlugin;
+/*import fr.dezost.traderplugin.TraderPlugin;*/
 import fr.dezost.traderplugin.gui.*;
 import fr.dezost.traderplugin.traits.TraderTrait;
 import net.citizensnpcs.api.npc.NPC;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static fr.dezost.traderplugin.utils.ItemUtils.getItemPrice;
+/*import static fr.dezost.traderplugin.utils.ItemUtils.getItemPrice;*/
 
 public class InventoryUtils {
 
