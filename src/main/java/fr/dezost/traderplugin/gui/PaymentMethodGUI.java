@@ -1,6 +1,7 @@
 package fr.dezost.traderplugin.gui;
 
 import fr.dezost.traderplugin.TraderPlugin;
+import fr.dezost.traderplugin.utils.Constants;
 import fr.dezost.traderplugin.utils.InventoryUtils;
 import fr.dezost.traderplugin.utils.ItemUtils;
 import org.bukkit.Bukkit;
@@ -12,17 +13,6 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PaymentMethodGUI {
-        public static final String BUY_PAYMENT_GUI_TITLE = "§6§lSelect Payment Method (Buy)";
-        public static final String SELL_PAYMENT_GUI_TITLE = "§6§lSelect Payment Method (Sell)";
-        private static final String PAY_WITH_EMERALDS_TEXT = "§a§lPay with Emeralds";
-        private static final String PAY_WITH_BANK_TEXT = "§a§lPay with the bank";
-        private static final String RECEIVE_EMERALDS_TEXT = "§a§lReceive emeralds";
-        private static final String RECEIVE_BANK_TEXT = "§a§lReceive in the bank";
-        private static final String PAY_WITH_EMERALDS_LORE = "§7Pay using emeralds in inventory";
-        private static final String PAY_WITH_BANK_LORE = "§7Pay using money in the bank";
-        private static final String RECEIVE_EMERALDS_LORE = "§7Receive payment in emeralds";
-        private static final String RECEIVE_BANK_LORE = "§7Receive payment in the bank";
-
         private JavaPlugin plugin;
 
         public PaymentMethodGUI(JavaPlugin plugin) {
@@ -34,8 +24,7 @@ public class PaymentMethodGUI {
                 player.setMetadata("transactionType",
                                 new FixedMetadataValue(JavaPlugin.getPlugin(TraderPlugin.class), transactionType));
 
-                String title = isBuying ? PaymentMethodGUI.BUY_PAYMENT_GUI_TITLE
-                                : PaymentMethodGUI.SELL_PAYMENT_GUI_TITLE;
+                String title = isBuying ? Constants.BUY_PAYMENT_GUI_TITLE : Constants.SELL_PAYMENT_GUI_TITLE;
                 Inventory paymentGUI = Bukkit.createInventory(null, 27, net.kyori.adventure.text.Component.text(title));
                 InventoryUtils.applyInventoryStyle(paymentGUI, title);
 
@@ -44,15 +33,17 @@ public class PaymentMethodGUI {
                 paymentGUI.setItem(13, displayItem);
 
                 if (isBuying) {
-                        paymentGUI.setItem(11, ItemUtils.createGuiItem(Material.EMERALD, PAY_WITH_EMERALDS_TEXT,
-                                        PAY_WITH_EMERALDS_LORE));
-                        paymentGUI.setItem(15, ItemUtils.createGuiItem(Material.PAPER, PAY_WITH_BANK_TEXT,
-                                        PAY_WITH_BANK_LORE));
+                        paymentGUI.setItem(11,
+                                        ItemUtils.createGuiItem(Material.EMERALD, Constants.PAY_WITH_EMERALDS_TEXT,
+                                                        Constants.PAY_WITH_EMERALDS_LORE));
+                        paymentGUI.setItem(15, ItemUtils.createGuiItem(Material.PAPER, Constants.PAY_WITH_BANK_TEXT,
+                                        Constants.PAY_WITH_BANK_LORE));
                 } else {
-                        paymentGUI.setItem(11, ItemUtils.createGuiItem(Material.EMERALD, RECEIVE_EMERALDS_TEXT,
-                                        RECEIVE_EMERALDS_LORE));
-                        paymentGUI.setItem(15, ItemUtils.createGuiItem(Material.PAPER, RECEIVE_BANK_TEXT,
-                                        RECEIVE_BANK_LORE));
+                        paymentGUI.setItem(11,
+                                        ItemUtils.createGuiItem(Material.EMERALD, Constants.RECEIVE_EMERALDS_TEXT,
+                                                        Constants.RECEIVE_EMERALDS_LORE));
+                        paymentGUI.setItem(15, ItemUtils.createGuiItem(Material.PAPER, Constants.RECEIVE_BANK_TEXT,
+                                        Constants.RECEIVE_BANK_LORE));
                 }
 
                 player.openInventory(paymentGUI);

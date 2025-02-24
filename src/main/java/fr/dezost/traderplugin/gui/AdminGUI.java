@@ -1,6 +1,7 @@
 package fr.dezost.traderplugin.gui;
 
 import fr.dezost.traderplugin.TraderPlugin;
+import fr.dezost.traderplugin.utils.Constants;
 import fr.dezost.traderplugin.utils.InventoryUtils;
 import fr.dezost.traderplugin.utils.ItemUtils;
 import org.bukkit.Material;
@@ -19,40 +20,30 @@ import static fr.dezost.traderplugin.utils.InventoryUtils.isBorderSlot;
 public class AdminGUI {
     private final TraderPlugin plugin;
 
-    public static final String SHOP_TITLE = "§6§lNPC Shop Actions";
-    public static final String SELECT_ITEM_TITLE = "§6§lSelect Item to Add";
-    public static final String MODIFY_ITEMS_TITLE = "§6§lModify Shop Items";
-    public static final String DELETE_ITEMS_TITLE = "§6§lDelete Shop Items";
-    private static final String ADD_ITEMS_BUTTON_TEXT = "§a§lAdd Items";
-    private static final String MODIFY_ITEMS_BUTTON_TEXT = "§e§lModify Items";
-    private static final String DELETE_ITEMS_BUTTON_TEXT = "§c§lDelete Items";
-    private static final String ADD_ITEMS_BUTTON_LORE = "§7Click to add new items";
-    private static final String MODIFY_ITEMS_BUTTON_LORE = "§7Click to modify items";
-    private static final String DELETE_ITEMS_BUTTON_LORE = "§7Click to delete items";
-    private static final String SELECT_ITEM_LORE = "§7Click to select this item";
-    private static final String NO_MORE_SPACE_MESSAGE = "§cNo more space available for items.";
-
     public AdminGUI(TraderPlugin plugin) {
         this.plugin = plugin;
     }
 
     public void openAdminActionSelectionGUI(Player player) {
         Inventory adminActionInventory = plugin.getServer().createInventory(null, 9,
-                net.kyori.adventure.text.Component.text(SHOP_TITLE));
-        InventoryUtils.applyInventoryStyle(adminActionInventory, SHOP_TITLE);
+                net.kyori.adventure.text.Component.text(Constants.ADMIN_SHOP_TITLE));
+        InventoryUtils.applyInventoryStyle(adminActionInventory, Constants.ADMIN_SHOP_TITLE);
         adminActionInventory.setItem(2,
-                ItemUtils.createGuiItem(Material.EMERALD_BLOCK, ADD_ITEMS_BUTTON_TEXT, ADD_ITEMS_BUTTON_LORE));
+                ItemUtils.createGuiItem(Material.EMERALD_BLOCK, Constants.ADD_ITEMS_BUTTON_TEXT,
+                        Constants.ADD_ITEMS_BUTTON_LORE));
         adminActionInventory.setItem(4,
-                ItemUtils.createGuiItem(Material.GOLD_BLOCK, MODIFY_ITEMS_BUTTON_TEXT, MODIFY_ITEMS_BUTTON_LORE));
+                ItemUtils.createGuiItem(Material.GOLD_BLOCK, Constants.MODIFY_ITEMS_BUTTON_TEXT,
+                        Constants.MODIFY_ITEMS_BUTTON_LORE));
         adminActionInventory.setItem(6,
-                ItemUtils.createGuiItem(Material.REDSTONE_BLOCK, DELETE_ITEMS_BUTTON_TEXT, DELETE_ITEMS_BUTTON_LORE));
+                ItemUtils.createGuiItem(Material.REDSTONE_BLOCK, Constants.DELETE_ITEMS_BUTTON_TEXT,
+                        Constants.DELETE_ITEMS_BUTTON_LORE));
         player.openInventory(adminActionInventory);
     }
 
     public void openPlayerInventoryToAdd(Player player) {
         Inventory playerInventory = plugin.getServer().createInventory(null, 54,
-                net.kyori.adventure.text.Component.text(SELECT_ITEM_TITLE));
-        InventoryUtils.applyInventoryStyle(playerInventory, SELECT_ITEM_TITLE);
+                net.kyori.adventure.text.Component.text(Constants.SELECT_ITEM_TITLE));
+        InventoryUtils.applyInventoryStyle(playerInventory, Constants.SELECT_ITEM_TITLE);
 
         Set<Material> addedItems = new HashSet<>();
         for (ItemStack item : player.getInventory().getContents()) {
@@ -62,7 +53,7 @@ public class AdminGUI {
                     displayItem.setAmount(1);
                     ItemMeta meta = displayItem.getItemMeta();
                     List<String> lore = new ArrayList<>();
-                    lore.add(SELECT_ITEM_LORE);
+                    lore.add(Constants.SELECT_ITEM_LORE);
                     assert meta != null;
                     meta.lore(lore.stream().map(net.kyori.adventure.text.Component::text).toList());
                     displayItem.setItemMeta(meta);
@@ -76,8 +67,8 @@ public class AdminGUI {
 
     public void openModifyItemsGUI(Player player, Inventory npcShopInventory) {
         Inventory modifyItemsInventory = plugin.getServer().createInventory(null, 54,
-                net.kyori.adventure.text.Component.text(MODIFY_ITEMS_TITLE));
-        InventoryUtils.applyInventoryStyle(modifyItemsInventory, MODIFY_ITEMS_TITLE);
+                net.kyori.adventure.text.Component.text(Constants.MODIFY_ITEMS_TITLE));
+        InventoryUtils.applyInventoryStyle(modifyItemsInventory, Constants.MODIFY_ITEMS_TITLE);
 
         int slot = 0;
 
@@ -89,7 +80,7 @@ public class AdminGUI {
                     slot++;
                 }
                 if (slot >= modifyItemsInventory.getSize()) {
-                    player.sendMessage(NO_MORE_SPACE_MESSAGE);
+                    player.sendMessage(Constants.NO_MORE_SPACE_MESSAGE);
                     break;
                 }
 
@@ -104,8 +95,8 @@ public class AdminGUI {
 
     public void openShopForDeletion(Player player, Inventory npcShopInventory) {
         Inventory deleteItemsInventory = plugin.getServer().createInventory(null, 54,
-                net.kyori.adventure.text.Component.text(DELETE_ITEMS_TITLE));
-        InventoryUtils.applyInventoryStyle(deleteItemsInventory, DELETE_ITEMS_TITLE);
+                net.kyori.adventure.text.Component.text(Constants.DELETE_ITEMS_TITLE));
+        InventoryUtils.applyInventoryStyle(deleteItemsInventory, Constants.DELETE_ITEMS_TITLE);
 
         int slot = 0;
 
@@ -117,7 +108,7 @@ public class AdminGUI {
                     slot++;
                 }
                 if (slot >= deleteItemsInventory.getSize()) {
-                    player.sendMessage(NO_MORE_SPACE_MESSAGE);
+                    player.sendMessage(Constants.NO_MORE_SPACE_MESSAGE);
                     break;
                 }
 

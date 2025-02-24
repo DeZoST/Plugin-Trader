@@ -6,6 +6,7 @@ import fr.dezost.traderplugin.gui.PriceSettingGUI;
 import fr.dezost.traderplugin.gui.QuantitySettingGUI;
 import fr.dezost.traderplugin.gui.ShopGUI;
 import fr.dezost.traderplugin.gui.PaymentMethodGUI;
+import fr.dezost.traderplugin.utils.Constants;
 import fr.dezost.traderplugin.utils.InventoryUtils;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 import net.citizensnpcs.api.npc.NPC;
@@ -27,10 +28,6 @@ public class TraderTrait extends Trait {
     private final ShopGUI shopGUI;
     private final PaymentMethodGUI paymentMethodGUI;
 
-    private static final String INVENTORY_ALREADY_LOADED_MESSAGE = "'s inventory already loaded.";
-    private static final String INVENTORY_LOADED_FROM_FILE_MESSAGE = "'s inventory loaded from file.";
-    private static final String NEW_TRADERSHOP_ASSIGNED_MESSAGE = " has been assigned a new TraderShop with a default inventory.";
-
     public TraderTrait() {
         super("TraderShop");
         plugin = JavaPlugin.getPlugin(TraderPlugin.class);
@@ -43,26 +40,24 @@ public class TraderTrait extends Trait {
 
     @Override
     public void onAttach() {
-
-        Inventory existingInventory = this.getNPC().data().get("shopInventory", null);
+        Inventory existingInventory = this.getNPC().data().get(Constants.SHOP_INVENTORY_DATA, null);
 
         if (existingInventory != null) {
             shopInventory = existingInventory;
-            plugin.getServer().getLogger().info(this.npc.getName() + INVENTORY_ALREADY_LOADED_MESSAGE);
+            plugin.getServer().getLogger().info(this.npc.getName() + Constants.INVENTORY_ALREADY_LOADED_MESSAGE);
         } else {
-
             Inventory loadedInventory = InventoryUtils.loadInventory(this.getNPC());
 
             if (loadedInventory != null) {
                 shopInventory = loadedInventory;
-                plugin.getServer().getLogger().info(this.npc.getName() + INVENTORY_LOADED_FROM_FILE_MESSAGE);
+                plugin.getServer().getLogger().info(this.npc.getName() + Constants.INVENTORY_LOADED_FROM_FILE_MESSAGE);
             } else {
                 shopInventory = InventoryUtils.createShopInventory(27, this.getNPC());
                 plugin.getServer().getLogger()
-                        .info(this.npc.getName() + NEW_TRADERSHOP_ASSIGNED_MESSAGE);
+                        .info(this.npc.getName() + Constants.NEW_TRADERSHOP_ASSIGNED_MESSAGE);
             }
 
-            this.getNPC().data().set("shopInventory", shopInventory);
+            this.getNPC().data().set(Constants.SHOP_INVENTORY_DATA, shopInventory);
         }
     }
 
@@ -72,10 +67,10 @@ public class TraderTrait extends Trait {
         NPC npc = event.getNPC();
         if (npc == this.getNPC()) {
             if (player.isSneaking() && player.isOp()) {
-                player.setMetadata("interactingNPC", new FixedMetadataValue(plugin, npc.getId()));
+                player.setMetadata(Constants.INTERACTING_NPC_METADATA, new FixedMetadataValue(plugin, npc.getId()));
                 adminGUI.openAdminActionSelectionGUI(player);
             } else {
-                player.setMetadata("interactingNPC", new FixedMetadataValue(plugin, npc.getId()));
+                player.setMetadata(Constants.INTERACTING_NPC_METADATA, new FixedMetadataValue(plugin, npc.getId()));
                 shopGUI.openShop(player, npc);
             }
         }
@@ -83,8 +78,7 @@ public class TraderTrait extends Trait {
 
     public void setShopInventory(Inventory newInventory) {
         this.shopInventory = newInventory;
-        this.getNPC().data().set("shopInventory", newInventory);
-
+        this.getNPC().data().set(Constants.SHOP_INVENTORY_DATA, newInventory);
     }
 
     public Inventory getShopInventory() {

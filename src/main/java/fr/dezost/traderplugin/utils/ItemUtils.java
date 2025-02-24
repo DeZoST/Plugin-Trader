@@ -13,10 +13,6 @@ import java.util.List;
 
 public class ItemUtils {
 
-    private static final String PRICE_PREFIX = "Price: ";
-    private static final String LORE_KEY = "lore";
-    private static final String PLUGIN_NAMESPACE = "traderplugin";
-
     public static ItemStack createGuiItem(Material material, String name, String... loreLines) {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
@@ -43,9 +39,9 @@ public class ItemUtils {
         }
         for (Component line : lore) {
             String lineText = line.toString();
-            if (lineText.startsWith(PRICE_PREFIX)) {
+            if (lineText.startsWith(Constants.PRICE_PREFIX)) {
                 try {
-                    return Integer.parseInt(lineText.substring(PRICE_PREFIX.length()));
+                    return Integer.parseInt(lineText.substring(Constants.PRICE_PREFIX.length()));
                 } catch (NumberFormatException e) {
                     return 0;
                 }
@@ -87,7 +83,7 @@ public class ItemUtils {
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
             List<Component> lore = new ArrayList<>();
-            NamespacedKey loreKey = new NamespacedKey(PLUGIN_NAMESPACE, LORE_KEY);
+            NamespacedKey loreKey = new NamespacedKey(Constants.PLUGIN_NAMESPACE, Constants.LORE_KEY);
             if (meta.getPersistentDataContainer().has(loreKey, PersistentDataType.STRING)) {
                 String loreString = meta.getPersistentDataContainer().get(loreKey, PersistentDataType.STRING);
                 if (loreString != null) {
