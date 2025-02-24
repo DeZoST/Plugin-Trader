@@ -15,6 +15,10 @@ import org.bukkit.inventory.ItemStack;
 public class ShopGUI {
     public static final String SHOP_TITLE = "§6§lMagasin";
     public static final String BUY_OR_SELL_TITLE = "§6§lBuy or Sell";
+    private static final String BUY_BUTTON_TEXT = "§a§lBuy";
+    private static final String SELL_BUTTON_TEXT = "§a§lSell";
+    private static final String BUY_BUTTON_LORE = "§7Buy this item";
+    private static final String SELL_BUTTON_LORE = "§7Sell this item";
 
     private final TraderPlugin plugin;
 
@@ -24,20 +28,14 @@ public class ShopGUI {
 
     public void handleShopItemClick(Player player, InventoryClickEvent event, ItemStack clickedItem) {
         if (event.getClickedInventory() != null) {
-            System.out.println("Clicked inventory: " + event.getClickedInventory().getType());
-            System.out.println("Clicked inventory holder: " + event.getClickedInventory().getHolder());
 
             if (event.getClickedInventory() == event.getView().getTopInventory()) {
-                System.out.println("Clicked in shop inventory");
                 if (event.getClick().isLeftClick()) {
-                    System.out.println("Left click");
                     ItemStack item = clickedItem.clone();
                     Inventory buyOrSellGUI = createBuyOrSellGUI(item);
                     player.openInventory(buyOrSellGUI);
                 }
             }
-        } else {
-            System.out.println("Clicked inventory is null");
         }
         event.setCancelled(true);
     }
@@ -84,8 +82,8 @@ public class ShopGUI {
     }
 
     private void setupBuyOrSellButtons(Inventory gui, ItemStack item) {
-        gui.setItem(11, ItemUtils.createGuiItem(Material.GOLD_INGOT, "§a§lBuy", "§7Buy this item"));
-        gui.setItem(15, ItemUtils.createGuiItem(Material.IRON_INGOT, "§a§lSell", "§7Sell this item"));
+        gui.setItem(11, ItemUtils.createGuiItem(Material.GOLD_INGOT, BUY_BUTTON_TEXT, BUY_BUTTON_LORE));
+        gui.setItem(15, ItemUtils.createGuiItem(Material.IRON_INGOT, SELL_BUTTON_TEXT, SELL_BUTTON_LORE));
         ItemStack displayItem = item.clone();
         gui.setItem(13, displayItem);
     }

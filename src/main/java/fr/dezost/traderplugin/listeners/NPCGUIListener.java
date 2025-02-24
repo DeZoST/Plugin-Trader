@@ -25,11 +25,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
-/*import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.NamespacedKey;
-
-import static fr.dezost.traderplugin.utils.ItemUtils.getItemPrice; */
 
 import java.util.List;
 import java.util.Objects;
@@ -42,6 +37,29 @@ public class NPCGUIListener implements Listener {
     private final PaymentMethodGUI paymentMethodGUI;
     private final NPCRemoveGUI npcRemoveGUI;
     private final TraderPlugin plugin;
+
+    private static final String INTERACTING_NPC_METADATA = "interactingNPC";
+    private static final String SELECTED_ITEM_INDEX_METADATA = "selectedItemIndex";
+    private static final String SELECTED_ITEM_METADATA = "selectedItem";
+    // private static final String TRANSACTION_TYPE_METADATA = "transactionType";
+    private static final String CONFIRM_BUTTON_TEXT = "§2§lConfirm";
+    private static final String ADD_ITEMS_BUTTON_TEXT = "§a§lAdd Items";
+    private static final String MODIFY_ITEMS_BUTTON_TEXT = "§e§lModify Items";
+    private static final String DELETE_ITEMS_BUTTON_TEXT = "§c§lDelete Items";
+    private static final String BUY_BUTTON_TEXT = "§a§lBuy";
+    private static final String SELL_BUTTON_TEXT = "§a§lSell";
+    private static final String NPC_ID_PREFIX = "§7ID: ";
+    private static final String NPC_REMOVED_MESSAGE = "§aNPC %s removed.";
+    private static final String NPC_NOT_FOUND_MESSAGE = "§cNPC not found.";
+    private static final String ERROR_PARSE_NPC_ID_MESSAGE = "§cError: Unable to parse NPC ID.";
+    private static final String ERROR_ITEM_LORE_NULL_MESSAGE = "§cError: Item lore is null.";
+    private static final String ERROR_ITEM_META_NULL_MESSAGE = "§cError: Item meta is null.";
+    private static final String NO_PERMISSION_MODIFY_NPCS_MESSAGE = "§cVous n'avez pas la permission de modifier les PNJs.";
+    private static final String ITEM_DELETED_MESSAGE = "§aItem deleted";
+    private static final String ITEM_NOT_FOUND_MESSAGE = "§cItem not found in the shop inventory";
+    // private static final String TRANSACTION_TYPE_NOT_SET_MESSAGE = "§cTransaction
+    // type not set. Please try again.";
+    private static final String FEATURE_NOT_RELEASED_MESSAGE = "§cCette fonctionnalite n'est pas encore sortie.";
 
     public NPCGUIListener(TraderPlugin plugin, AdminGUI adminGUI, PriceSettingGUI priceSettingGUI,
             QuantitySettingGUI quantitySettingGUI, ShopGUI shopGUI, PaymentMethodGUI paymentMethodGUI,
@@ -65,7 +83,7 @@ public class NPCGUIListener implements Listener {
         if (!InventoryUtils.isRecognizedInventory(inventoryTitle)) {
             return;
         }
-        if (!player.hasMetadata("interactingNPC")) {
+        if (!player.hasMetadata(INTERACTING_NPC_METADATA)) {
             event.setCancelled(true);
             return;
         }
@@ -126,30 +144,30 @@ public class NPCGUIListener implements Listener {
                 for (Component line : lore) {
                     String lineText = LegacyComponentSerializer.legacySection().serialize(line);
 
-                    if (lineText.contains("§7ID: ")) {
+                    if (lineText.contains(NPC_ID_PREFIX)) {
                         try {
-                            String idPart = lineText.split("§7ID: ")[1].split("§")[0];
+                            String idPart = lineText.split(NPC_ID_PREFIX)[1].split("§")[0];
                             int npcId = Integer.parseInt(idPart);
                             NPC npc = CitizensAPI.getNPCRegistry().getById(npcId);
                             if (npc != null) {
                                 npc.destroy();
-                                player.sendMessage("§aNPC " + npc.getName() + " removed.");
+                                player.sendMessage(String.format(NPC_REMOVED_MESSAGE, npc.getName()));
                                 npcRemoveGUI.openRemoveNPCGUI(player);
                             } else {
-                                player.sendMessage("§cNPC not found.");
+                                player.sendMessage(NPC_NOT_FOUND_MESSAGE);
                             }
                         } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-                            player.sendMessage("§cError: Unable to parse NPC ID.");
+                            player.sendMessage(ERROR_PARSE_NPC_ID_MESSAGE);
                             e.printStackTrace();
                         }
                         break;
                     }
                 }
             } else {
-                player.sendMessage("§cError: Item lore is null.");
+                player.sendMessage(ERROR_ITEM_LORE_NULL_MESSAGE);
             }
         } else {
-            player.sendMessage("§cError: Item meta is null.");
+            player.sendMessage(ERROR_ITEM_META_NULL_MESSAGE);
         }
         event.setCancelled(true);
     }
@@ -159,11 +177,11 @@ public class NPCGUIListener implements Listener {
         if (displayNameComponent != null) {
             String displayName = LegacyComponentSerializer.legacySection().serialize(displayNameComponent);
             Inventory inventory = event.getClickedInventory();
-            if (displayName.equals("§2§lConfirm")) {
+            if (displayName.equals(CONFIRM_BUTTON_TEXT)) {
                 assert inventory != null;
                 ItemStack item = inventory.getItem(13);
                 if (item != null) {
-                    player.setMetadata("selectedItem",
+                    player.setMetadata(SELECTED_ITEM_METADATA,
                             new FixedMetadataValue(JavaPlugin.getPlugin(TraderPlugin.class), item));
                     priceSettingGUI.openPriceSettingGUI(player, item);
                 }
@@ -182,7 +200,7 @@ public class NPCGUIListener implements Listener {
 
     private void handleAdminActions(Player player, InventoryClickEvent event, ItemStack clickedItem) {
         if (!player.hasPermission("trader.modify")) {
-            player.sendMessage("§cVous n'avez pas la permission de modifier les PNJs.");
+            player.sendMessage(NO_PERMISSION_MODIFY_NPCS_MESSAGE);
             event.setCancelled(true);
             return;
         }
@@ -190,16 +208,13 @@ public class NPCGUIListener implements Listener {
         String action = LegacyComponentSerializer.legacySection().serialize(displayNameComponent);
 
         switch (action) {
-            case "§a§lAdd Items":
-
+            case ADD_ITEMS_BUTTON_TEXT:
                 adminGUI.openPlayerInventoryToAdd(player);
                 break;
-            case "§e§lModify Items":
-
+            case MODIFY_ITEMS_BUTTON_TEXT:
                 adminGUI.openModifyItemsGUI(player, InventoryUtils.getNPCShopInventory(player));
                 break;
-            case "§c§lDelete Items":
-
+            case DELETE_ITEMS_BUTTON_TEXT:
                 adminGUI.openShopForDeletion(player, InventoryUtils.getNPCShopInventory(player));
                 break;
         }
@@ -221,7 +236,7 @@ public class NPCGUIListener implements Listener {
                 ItemStack item = npcShopInventory.getItem(slot);
                 if (item != null && item.isSimilar(clickedItem)) {
                     npcShopInventory.setItem(slot, null);
-                    player.sendMessage("§aItem deleted");
+                    player.sendMessage(ITEM_DELETED_MESSAGE);
                 }
                 adminGUI.openShopForDeletion(player, npcShopInventory);
             }
@@ -233,16 +248,13 @@ public class NPCGUIListener implements Listener {
         if (clickedItem.getType() != Material.GRAY_STAINED_GLASS_PANE && clickedItem.getType() != Material.AIR) {
             Inventory npcShopInventory = InventoryUtils.getNPCShopInventory(player);
             if (npcShopInventory != null) {
-
                 int slot = event.getSlot();
                 ItemStack item = npcShopInventory.getItem(slot);
                 if (item != null && item.isSimilar(clickedItem)) {
-
-                    player.setMetadata("selectedItemIndex", new FixedMetadataValue(plugin, slot));
-
+                    player.setMetadata(SELECTED_ITEM_INDEX_METADATA, new FixedMetadataValue(plugin, slot));
                     quantitySettingGUI.openQuantitySettingGUI(player, clickedItem);
                 } else {
-                    player.sendMessage("§cItem not found in the shop inventory");
+                    player.sendMessage(ITEM_NOT_FOUND_MESSAGE);
                 }
             }
         }
@@ -255,20 +267,18 @@ public class NPCGUIListener implements Listener {
             String displayName = LegacyComponentSerializer.legacySection().serialize(displayNameComponent);
 
             Inventory inventory = event.getClickedInventory();
-            if (displayName.equals("§2§lConfirm")) {
+            if (displayName.equals(CONFIRM_BUTTON_TEXT)) {
                 assert inventory != null;
                 ItemStack item = inventory.getItem(13);
                 if (item != null) {
-
-                    NPC npc = CitizensAPI.getNPCRegistry().getById(player.getMetadata("interactingNPC").get(0).asInt());
+                    NPC npc = CitizensAPI.getNPCRegistry()
+                            .getById(player.getMetadata(INTERACTING_NPC_METADATA).get(0).asInt());
                     Inventory shopInventory = npc.data().get("shopInventory", null);
                     if (shopInventory != null) {
-
-                        if (player.hasMetadata("selectedItemIndex")) {
-                            int index = player.getMetadata("selectedItemIndex").get(0).asInt();
-
+                        if (player.hasMetadata(SELECTED_ITEM_INDEX_METADATA)) {
+                            int index = player.getMetadata(SELECTED_ITEM_INDEX_METADATA).get(0).asInt();
                             shopInventory.setItem(index, item);
-                            player.removeMetadata("selectedItemIndex", plugin);
+                            player.removeMetadata(SELECTED_ITEM_INDEX_METADATA, plugin);
                         } else {
                             InventoryUtils.addNewShopItem(item, shopInventory, npc);
                             shopInventory = npc.data().get("shopInventory", shopInventory);
@@ -293,11 +303,11 @@ public class NPCGUIListener implements Listener {
         Component displayNameComponent = Objects.requireNonNull(clickedItem.getItemMeta()).displayName();
         if (displayNameComponent != null) {
             String displayName = LegacyComponentSerializer.legacySection().serialize(displayNameComponent);
-            if (displayName.equals("§a§lBuy")) {
+            if (displayName.equals(BUY_BUTTON_TEXT)) {
                 ItemStack item = Objects.requireNonNull(event.getClickedInventory()).getItem(13);
                 int quantity = (item != null) ? item.getAmount() : 0;
                 paymentMethodGUI.openPaymentMethodGUI(player, item, quantity, true);
-            } else if (displayName.equals("§a§lSell")) {
+            } else if (displayName.equals(SELL_BUTTON_TEXT)) {
                 ItemStack item = Objects.requireNonNull(event.getClickedInventory()).getItem(13);
                 int quantity = (item != null) ? item.getAmount() : 0;
                 paymentMethodGUI.openPaymentMethodGUI(player, item, quantity, false);
@@ -310,7 +320,7 @@ public class NPCGUIListener implements Listener {
 
     private void handlePaymentMethod(Player player, InventoryClickEvent event, ItemStack clickedItem) {
         event.setCancelled(true);
-        player.sendMessage("§cCette fonctionnalite n'est pas encore sortie.");
+        player.sendMessage(FEATURE_NOT_RELEASED_MESSAGE);
         /*
          * Component displayNameComponent =
          * Objects.requireNonNull(clickedItem.getItemMeta()).displayName();
@@ -324,9 +334,9 @@ public class NPCGUIListener implements Listener {
          * int totalCost = calculateTotalCost(item, quantity);
          * IPurseAPI purseAPI = JavaPlugin.getPlugin(TraderPlugin.class).getPurseAPI();
          *
-         * if (player.hasMetadata("transactionType")) {
+         * if (player.hasMetadata(TRANSACTION_TYPE_METADATA)) {
          * String transactionType =
-         * player.getMetadata("transactionType").get(0).asString();
+         * player.getMetadata(TRANSACTION_TYPE_METADATA).get(0).asString();
          *
          * if (transactionType.equals("buy")) {
          * if (displayName.equals("§a§lPay with Emeralds")) {
@@ -376,9 +386,9 @@ public class NPCGUIListener implements Listener {
          * }
          * }
          * } else {
-         * player.sendMessage("§cTransaction type not set. Please try again.");
+         * player.sendMessage(TRANSACTION_TYPE_NOT_SET_MESSAGE);
          * }
-         * player.removeMetadata("transactionType", plugin);
+         * player.removeMetadata(TRANSACTION_TYPE_METADATA, plugin);
          * player.closeInventory();
          * }
          * } else {
@@ -409,8 +419,8 @@ public class NPCGUIListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        if (player.hasMetadata("interactingNPC")) {
-            player.removeMetadata("interactingNPC", plugin);
+        if (player.hasMetadata(INTERACTING_NPC_METADATA)) {
+            player.removeMetadata(INTERACTING_NPC_METADATA, plugin);
         }
     }
 }

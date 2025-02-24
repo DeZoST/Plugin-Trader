@@ -10,6 +10,12 @@ import org.bukkit.entity.EntityType;
 public class NPCManager {
     private final NPCRemoveGUI npcRemoveGUI;
 
+    private static final String NPC_CREATED_MESSAGE = "§aPNJ Trader %s créé avec TraderTrait.";
+    private static final String HELP_HEADER_MESSAGE = "§aCommandes du Plugin Trader:";
+    private static final String HELP_CREATE_COMMAND_MESSAGE = "§e/trader create <nom_pnj> §7- Crée un nouveau PNJ trader avec TraderTrait. Nécessite la permission: trader.create";
+    private static final String HELP_REMOVE_COMMAND_MESSAGE = "§e/trader remove §7- Supprime le PNJ sélectionné. Nécessite la permission: trader.remove";
+    private static final String HELP_HELP_COMMAND_MESSAGE = "§e/trader help §7- Affiche ce message d'aide.";
+
     public NPCManager(NPCRemoveGUI npcRemoveGUI) {
         this.npcRemoveGUI = npcRemoveGUI;
     }
@@ -24,7 +30,7 @@ public class NPCManager {
         npc.addTrait(TraderTrait.class);
         npc.spawn(player.getLocation());
 
-        player.sendMessage("§aTrader NPC " + npcName + " created with TraderTrait.");
+        player.sendMessage(String.format(NPC_CREATED_MESSAGE, npcName));
     }
 
     public void handleRemove(Player player) {
@@ -32,11 +38,9 @@ public class NPCManager {
     }
 
     public void handleHelp(Player player) {
-        player.sendMessage("§aTrader Plugin Commands:");
-        player.sendMessage(
-                "§e/trader create <npc_name> §7- Creates a new trader NPC with TraderTrait. Requires permission: trader.create");
-        player.sendMessage("§e/trader remove §7- Removes the selected NPC. Requires permission: trader.remove");
-        player.sendMessage("§e/trader help §7- Shows this help message.");
-
+        player.sendMessage(HELP_HEADER_MESSAGE);
+        player.sendMessage(HELP_CREATE_COMMAND_MESSAGE);
+        player.sendMessage(HELP_REMOVE_COMMAND_MESSAGE);
+        player.sendMessage(HELP_HELP_COMMAND_MESSAGE);
     }
 }

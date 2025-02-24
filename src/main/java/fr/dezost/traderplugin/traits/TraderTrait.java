@@ -27,6 +27,10 @@ public class TraderTrait extends Trait {
     private final ShopGUI shopGUI;
     private final PaymentMethodGUI paymentMethodGUI;
 
+    private static final String INVENTORY_ALREADY_LOADED_MESSAGE = "'s inventory already loaded.";
+    private static final String INVENTORY_LOADED_FROM_FILE_MESSAGE = "'s inventory loaded from file.";
+    private static final String NEW_TRADERSHOP_ASSIGNED_MESSAGE = " has been assigned a new TraderShop with a default inventory.";
+
     public TraderTrait() {
         super("TraderShop");
         plugin = JavaPlugin.getPlugin(TraderPlugin.class);
@@ -44,18 +48,18 @@ public class TraderTrait extends Trait {
 
         if (existingInventory != null) {
             shopInventory = existingInventory;
-            plugin.getServer().getLogger().info(this.npc.getName() + "'s inventory already loaded.");
+            plugin.getServer().getLogger().info(this.npc.getName() + INVENTORY_ALREADY_LOADED_MESSAGE);
         } else {
 
             Inventory loadedInventory = InventoryUtils.loadInventory(this.getNPC());
 
             if (loadedInventory != null) {
                 shopInventory = loadedInventory;
-                plugin.getServer().getLogger().info(this.npc.getName() + "'s inventory loaded from file.");
+                plugin.getServer().getLogger().info(this.npc.getName() + INVENTORY_LOADED_FROM_FILE_MESSAGE);
             } else {
                 shopInventory = InventoryUtils.createShopInventory(27, this.getNPC());
                 plugin.getServer().getLogger()
-                        .info(this.npc.getName() + " has been assigned a new TraderShop with a default inventory.");
+                        .info(this.npc.getName() + NEW_TRADERSHOP_ASSIGNED_MESSAGE);
             }
 
             this.getNPC().data().set("shopInventory", shopInventory);

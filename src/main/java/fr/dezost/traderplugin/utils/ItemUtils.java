@@ -13,6 +13,10 @@ import java.util.List;
 
 public class ItemUtils {
 
+    private static final String PRICE_PREFIX = "Price: ";
+    private static final String LORE_KEY = "lore";
+    private static final String PLUGIN_NAMESPACE = "traderplugin";
+
     public static ItemStack createGuiItem(Material material, String name, String... loreLines) {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
@@ -39,9 +43,9 @@ public class ItemUtils {
         }
         for (Component line : lore) {
             String lineText = line.toString();
-            if (lineText.startsWith("Price: ")) {
+            if (lineText.startsWith(PRICE_PREFIX)) {
                 try {
-                    return Integer.parseInt(lineText.substring(7));
+                    return Integer.parseInt(lineText.substring(PRICE_PREFIX.length()));
                 } catch (NumberFormatException e) {
                     return 0;
                 }
@@ -83,10 +87,9 @@ public class ItemUtils {
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
             List<Component> lore = new ArrayList<>();
-            if (meta.getPersistentDataContainer().has(new NamespacedKey("traderplugin", "lore"),
-                    PersistentDataType.STRING)) {
-                String loreString = meta.getPersistentDataContainer().get(new NamespacedKey("traderplugin", "lore"),
-                        PersistentDataType.STRING);
+            NamespacedKey loreKey = new NamespacedKey(PLUGIN_NAMESPACE, LORE_KEY);
+            if (meta.getPersistentDataContainer().has(loreKey, PersistentDataType.STRING)) {
+                String loreString = meta.getPersistentDataContainer().get(loreKey, PersistentDataType.STRING);
                 if (loreString != null) {
                     for (String line : loreString.split("\n")) {
                         lore.add(Component.text(line));
@@ -95,8 +98,7 @@ public class ItemUtils {
             }
             lore.add(Component.text(loreLine));
             meta.lore(lore);
-            meta.getPersistentDataContainer().set(new NamespacedKey("traderplugin", "lore"),
-                    PersistentDataType.STRING, String.join("\n", loreLine));
+            meta.getPersistentDataContainer().set(loreKey, PersistentDataType.STRING, String.join("\n", loreLine));
             item.setItemMeta(meta);
         }
     }

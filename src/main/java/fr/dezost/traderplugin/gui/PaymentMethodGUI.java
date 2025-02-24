@@ -14,6 +14,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class PaymentMethodGUI {
         public static final String BUY_PAYMENT_GUI_TITLE = "§6§lSelect Payment Method (Buy)";
         public static final String SELL_PAYMENT_GUI_TITLE = "§6§lSelect Payment Method (Sell)";
+        private static final String PAY_WITH_EMERALDS_TEXT = "§a§lPay with Emeralds";
+        private static final String PAY_WITH_BANK_TEXT = "§a§lPay with the bank";
+        private static final String RECEIVE_EMERALDS_TEXT = "§a§lReceive emeralds";
+        private static final String RECEIVE_BANK_TEXT = "§a§lReceive in the bank";
+        private static final String PAY_WITH_EMERALDS_LORE = "§7Pay using emeralds in inventory";
+        private static final String PAY_WITH_BANK_LORE = "§7Pay using money in the bank";
+        private static final String RECEIVE_EMERALDS_LORE = "§7Receive payment in emeralds";
+        private static final String RECEIVE_BANK_LORE = "§7Receive payment in the bank";
+
         private JavaPlugin plugin;
 
         public PaymentMethodGUI(JavaPlugin plugin) {
@@ -35,15 +44,15 @@ public class PaymentMethodGUI {
                 paymentGUI.setItem(13, displayItem);
 
                 if (isBuying) {
-                        paymentGUI.setItem(11, ItemUtils.createGuiItem(Material.EMERALD, "§a§lPay with Emeralds",
-                                        "§7Pay using emeralds in inventory"));
-                        paymentGUI.setItem(15, ItemUtils.createGuiItem(Material.PAPER, "§a§lPay with the bank",
-                                        "§7Pay using money in the bank"));
+                        paymentGUI.setItem(11, ItemUtils.createGuiItem(Material.EMERALD, PAY_WITH_EMERALDS_TEXT,
+                                        PAY_WITH_EMERALDS_LORE));
+                        paymentGUI.setItem(15, ItemUtils.createGuiItem(Material.PAPER, PAY_WITH_BANK_TEXT,
+                                        PAY_WITH_BANK_LORE));
                 } else {
-                        paymentGUI.setItem(11, ItemUtils.createGuiItem(Material.EMERALD, "§a§lReceive emeralds",
-                                        "§7Receive payment in emeralds"));
-                        paymentGUI.setItem(15, ItemUtils.createGuiItem(Material.PAPER, "§a§lReceive in the bank",
-                                        "§7Receive payment in the bank"));
+                        paymentGUI.setItem(11, ItemUtils.createGuiItem(Material.EMERALD, RECEIVE_EMERALDS_TEXT,
+                                        RECEIVE_EMERALDS_LORE));
+                        paymentGUI.setItem(15, ItemUtils.createGuiItem(Material.PAPER, RECEIVE_BANK_TEXT,
+                                        RECEIVE_BANK_LORE));
                 }
 
                 player.openInventory(paymentGUI);

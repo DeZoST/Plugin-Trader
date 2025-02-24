@@ -23,6 +23,14 @@ public class AdminGUI {
     public static final String SELECT_ITEM_TITLE = "§6§lSelect Item to Add";
     public static final String MODIFY_ITEMS_TITLE = "§6§lModify Shop Items";
     public static final String DELETE_ITEMS_TITLE = "§6§lDelete Shop Items";
+    private static final String ADD_ITEMS_BUTTON_TEXT = "§a§lAdd Items";
+    private static final String MODIFY_ITEMS_BUTTON_TEXT = "§e§lModify Items";
+    private static final String DELETE_ITEMS_BUTTON_TEXT = "§c§lDelete Items";
+    private static final String ADD_ITEMS_BUTTON_LORE = "§7Click to add new items";
+    private static final String MODIFY_ITEMS_BUTTON_LORE = "§7Click to modify items";
+    private static final String DELETE_ITEMS_BUTTON_LORE = "§7Click to delete items";
+    private static final String SELECT_ITEM_LORE = "§7Click to select this item";
+    private static final String NO_MORE_SPACE_MESSAGE = "§cNo more space available for items.";
 
     public AdminGUI(TraderPlugin plugin) {
         this.plugin = plugin;
@@ -33,13 +41,12 @@ public class AdminGUI {
                 net.kyori.adventure.text.Component.text(SHOP_TITLE));
         InventoryUtils.applyInventoryStyle(adminActionInventory, SHOP_TITLE);
         adminActionInventory.setItem(2,
-                ItemUtils.createGuiItem(Material.EMERALD_BLOCK, "§a§lAdd Items", "§7Click to add new items"));
+                ItemUtils.createGuiItem(Material.EMERALD_BLOCK, ADD_ITEMS_BUTTON_TEXT, ADD_ITEMS_BUTTON_LORE));
         adminActionInventory.setItem(4,
-                ItemUtils.createGuiItem(Material.GOLD_BLOCK, "§e§lModify Items", "§7Click to modify items"));
+                ItemUtils.createGuiItem(Material.GOLD_BLOCK, MODIFY_ITEMS_BUTTON_TEXT, MODIFY_ITEMS_BUTTON_LORE));
         adminActionInventory.setItem(6,
-                ItemUtils.createGuiItem(Material.REDSTONE_BLOCK, "§c§lDelete Items", "§7Click to delete items"));
+                ItemUtils.createGuiItem(Material.REDSTONE_BLOCK, DELETE_ITEMS_BUTTON_TEXT, DELETE_ITEMS_BUTTON_LORE));
         player.openInventory(adminActionInventory);
-
     }
 
     public void openPlayerInventoryToAdd(Player player) {
@@ -55,7 +62,7 @@ public class AdminGUI {
                     displayItem.setAmount(1);
                     ItemMeta meta = displayItem.getItemMeta();
                     List<String> lore = new ArrayList<>();
-                    lore.add("§7Click to select this item");
+                    lore.add(SELECT_ITEM_LORE);
                     assert meta != null;
                     meta.lore(lore.stream().map(net.kyori.adventure.text.Component::text).toList());
                     displayItem.setItemMeta(meta);
@@ -82,7 +89,7 @@ public class AdminGUI {
                     slot++;
                 }
                 if (slot >= modifyItemsInventory.getSize()) {
-                    player.sendMessage("§cNo more space available for items.");
+                    player.sendMessage(NO_MORE_SPACE_MESSAGE);
                     break;
                 }
 
@@ -110,7 +117,7 @@ public class AdminGUI {
                     slot++;
                 }
                 if (slot >= deleteItemsInventory.getSize()) {
-                    player.sendMessage("§cNo more space available for items.");
+                    player.sendMessage(NO_MORE_SPACE_MESSAGE);
                     break;
                 }
 

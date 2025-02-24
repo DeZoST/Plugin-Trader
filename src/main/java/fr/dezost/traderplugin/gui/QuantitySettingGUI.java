@@ -22,6 +22,23 @@ public class QuantitySettingGUI {
         }
 
         public static final String QUANTITY_GUI_TITLE = "§6§lSelect Quantity";
+        private static final String DECREASE_64_TEXT = "§a§l-64";
+        private static final String DECREASE_10_TEXT = "§c§l-10";
+        private static final String DECREASE_1_TEXT = "§c§l-1";
+        private static final String INCREASE_1_TEXT = "§a§l+1";
+        private static final String INCREASE_10_TEXT = "§a§l+10";
+        private static final String INCREASE_64_TEXT = "§a§l+64";
+        private static final String INSTRUCTIONS_TEXT = "§a§lInstructions";
+        private static final String CONFIRM_TEXT = "§2§lConfirm";
+        private static final String DECREASE_64_LORE = "§7Decrease quantity by 64";
+        private static final String DECREASE_10_LORE = "§7Decrease quantity by 10";
+        private static final String DECREASE_1_LORE = "§7Decrease quantity by 1";
+        private static final String INCREASE_1_LORE = "§7Increase quantity by 1";
+        private static final String INCREASE_10_LORE = "§7Increase quantity by 10";
+        private static final String INCREASE_64_LORE = "§7Increase quantity by 64";
+        private static final String INSTRUCTIONS_LORE_1 = "§7Use + / - to adjust the quantity";
+        private static final String INSTRUCTIONS_LORE_2 = "§7Click 'Confirm' to set the quantity";
+        private static final String CONFIRM_LORE = "§7Click to confirm the quantity";
 
         public Inventory createQuantitySettingGUI(ItemStack item) {
                 Inventory gui = plugin.getServer().createInventory(null, 27,
@@ -59,27 +76,27 @@ public class QuantitySettingGUI {
                 }
 
                 gui.setItem(10,
-                                ItemUtils.createGuiItem(Material.RED_STAINED_GLASS_PANE, "§a§l-64",
-                                                "§7Decrease quantity by 64"));
+                                ItemUtils.createGuiItem(Material.RED_STAINED_GLASS_PANE, DECREASE_64_TEXT,
+                                                DECREASE_64_LORE));
                 gui.setItem(11,
-                                ItemUtils.createGuiItem(Material.RED_STAINED_GLASS_PANE, "§c§l-10",
-                                                "§7Decrease quantity by 10"));
-                gui.setItem(12, ItemUtils.createGuiItem(Material.RED_STAINED_GLASS_PANE, "§c§l-1",
-                                "§7Decrease quantity by 1"));
+                                ItemUtils.createGuiItem(Material.RED_STAINED_GLASS_PANE, DECREASE_10_TEXT,
+                                                DECREASE_10_LORE));
+                gui.setItem(12, ItemUtils.createGuiItem(Material.RED_STAINED_GLASS_PANE, DECREASE_1_TEXT,
+                                DECREASE_1_LORE));
                 gui.setItem(13, item.clone());
                 gui.setItem(14,
-                                ItemUtils.createGuiItem(Material.GREEN_STAINED_GLASS_PANE, "§a§l+1",
-                                                "§7Increase quantity by 1"));
+                                ItemUtils.createGuiItem(Material.GREEN_STAINED_GLASS_PANE, INCREASE_1_TEXT,
+                                                INCREASE_1_LORE));
                 gui.setItem(15,
-                                ItemUtils.createGuiItem(Material.GREEN_STAINED_GLASS_PANE, "§a§l+10",
-                                                "§7Increase quantity by 10"));
+                                ItemUtils.createGuiItem(Material.GREEN_STAINED_GLASS_PANE, INCREASE_10_TEXT,
+                                                INCREASE_10_LORE));
                 gui.setItem(16,
-                                ItemUtils.createGuiItem(Material.GREEN_STAINED_GLASS_PANE, "§a§l+64",
-                                                "§7Increase quantity by 64"));
-                gui.setItem(22, ItemUtils.createGuiItem(Material.BOOK, "§a§lInstructions",
-                                "§7Use + / - to adjust the quantity", "§7Click 'Confirm' to set the quantity"));
+                                ItemUtils.createGuiItem(Material.GREEN_STAINED_GLASS_PANE, INCREASE_64_TEXT,
+                                                INCREASE_64_LORE));
+                gui.setItem(22, ItemUtils.createGuiItem(Material.BOOK, INSTRUCTIONS_TEXT,
+                                INSTRUCTIONS_LORE_1, INSTRUCTIONS_LORE_2));
                 gui.setItem(26,
-                                ItemUtils.createGuiItem(Material.EMERALD_BLOCK, "§2§lConfirm",
-                                                "§7Click to confirm the quantity"));
+                                ItemUtils.createGuiItem(Material.EMERALD_BLOCK, CONFIRM_TEXT,
+                                                CONFIRM_LORE));
         }
 }
