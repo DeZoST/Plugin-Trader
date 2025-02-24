@@ -6,6 +6,7 @@ import fr.dezost.traderplugin.gui.*;
 import fr.dezost.traderplugin.listeners.NPCGUIListener;
 import fr.dezost.traderplugin.managers.NPCManager;
 import fr.dezost.traderplugin.traits.TraderTrait;
+import fr.dezost.traderplugin.utils.Constants;
 import fr.dezost.traderplugin.utils.InventoryUtils;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -26,6 +27,10 @@ public class TraderPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        // Load configuration
+        saveDefaultConfig();
+        Constants.loadConfig(getConfig());
+
         adminGUI = new AdminGUI(this);
         priceSettingGUI = new PriceSettingGUI(this);
         quantitySettingGUI = new QuantitySettingGUI(this);
