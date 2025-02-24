@@ -23,13 +23,13 @@ public class Constants {
     public static String INSTRUCTIONS_LORE_2;
 
     // AdminGUI
-    public static String ADMIN_SHOP_TITLE;
-    public static String SELECT_ITEM_TITLE;
-    public static String MODIFY_ITEMS_TITLE;
-    public static String DELETE_ITEMS_TITLE;
-    public static String ADD_ITEMS_BUTTON_TEXT;
-    public static String MODIFY_ITEMS_BUTTON_TEXT;
-    public static String DELETE_ITEMS_BUTTON_TEXT;
+    public static final String ADMIN_SHOP_TITLE = "§6§lActions Admin";
+    public static final String SELECT_ITEM_TITLE = "§6§lAjouter des articles";
+    public static final String MODIFY_ITEMS_TITLE = "§6§lModifier des articles";
+    public static final String DELETE_ITEMS_TITLE = "§6§lSupprimer des articles";
+    public static final String ADD_ITEMS_BUTTON_TEXT = "§a§lAjouter des articles";
+    public static final String MODIFY_ITEMS_BUTTON_TEXT = "§e§lModifier les articles";
+    public static final String DELETE_ITEMS_BUTTON_TEXT = "§c§lSupprimer les articles";
     public static String ADD_ITEMS_BUTTON_LORE;
     public static String MODIFY_ITEMS_BUTTON_LORE;
     public static String DELETE_ITEMS_BUTTON_LORE;
@@ -37,14 +37,14 @@ public class Constants {
     public static String NO_MORE_SPACE_MESSAGE;
 
     // NPCRemoveGUI
-    public static String REMOVE_NPC_GUI_TITLE;
+    public static final String REMOVE_NPC_GUI_TITLE = "§6§lSupprimer NPC";
     public static String NPC_ITEM_NAME_PREFIX;
     public static String NPC_ID_PREFIX;
     public static String NPC_REMOVE_LORE;
 
     // PaymentMethodGUI
-    public static String BUY_PAYMENT_GUI_TITLE;
-    public static String SELL_PAYMENT_GUI_TITLE;
+    public static final String BUY_PAYMENT_GUI_TITLE = "§6§lPaiement Achat";
+    public static final String SELL_PAYMENT_GUI_TITLE = "§6§lPaiement Vente";
     public static String PAY_WITH_EMERALDS_TEXT;
     public static String PAY_WITH_BANK_TEXT;
     public static String RECEIVE_EMERALDS_TEXT;
@@ -55,19 +55,19 @@ public class Constants {
     public static String RECEIVE_BANK_LORE;
 
     // PriceSettingGUI
-    public static String PRICE_GUI_TITLE;
+    public static final String PRICE_GUI_TITLE = "§6§lDéfinir le prix";
     public static String DEFAULT_PRICE_LORE;
 
     // QuantitySettingGUI
-    public static String QUANTITY_GUI_TITLE;
+    public static final String QUANTITY_GUI_TITLE = "§6§lDéfinir la quantité";
     public static String DECREASE_64_TEXT;
     public static String INCREASE_64_TEXT;
     public static String DECREASE_64_LORE;
     public static String INCREASE_64_LORE;
 
     // ShopGUI
-    public static String SHOP_TITLE;
-    public static String BUY_OR_SELL_TITLE;
+    public static final String SHOP_TITLE = "§6§lBoutique";
+    public static final String BUY_OR_SELL_TITLE = "§6§lAcheter ou Vendre";
     public static String BUY_BUTTON_TEXT;
     public static String SELL_BUTTON_TEXT;
     public static String BUY_BUTTON_LORE;
@@ -149,26 +149,16 @@ public class Constants {
         INSTRUCTIONS_LORE_1 = config.getString("messages.instructions_lore_1");
         INSTRUCTIONS_LORE_2 = config.getString("messages.instructions_lore_2");
 
-        ADMIN_SHOP_TITLE = config.getString("messages.admin_shop_title");
-        SELECT_ITEM_TITLE = config.getString("messages.select_item_title");
-        MODIFY_ITEMS_TITLE = config.getString("messages.modify_items_title");
-        DELETE_ITEMS_TITLE = config.getString("messages.delete_items_title");
-        ADD_ITEMS_BUTTON_TEXT = config.getString("messages.add_items_button_text");
-        MODIFY_ITEMS_BUTTON_TEXT = config.getString("messages.modify_items_button_text");
-        DELETE_ITEMS_BUTTON_TEXT = config.getString("messages.delete_items_button_text");
         ADD_ITEMS_BUTTON_LORE = config.getString("messages.add_items_button_lore");
         MODIFY_ITEMS_BUTTON_LORE = config.getString("messages.modify_items_button_lore");
         DELETE_ITEMS_BUTTON_LORE = config.getString("messages.delete_items_button_lore");
         SELECT_ITEM_LORE = config.getString("messages.select_item_lore");
         NO_MORE_SPACE_MESSAGE = config.getString("messages.no_more_space_message");
 
-        REMOVE_NPC_GUI_TITLE = config.getString("messages.remove_npc_gui_title");
         NPC_ITEM_NAME_PREFIX = config.getString("messages.npc_item_name_prefix");
         NPC_ID_PREFIX = config.getString("messages.npc_id_prefix");
         NPC_REMOVE_LORE = config.getString("messages.npc_remove_lore");
 
-        BUY_PAYMENT_GUI_TITLE = config.getString("messages.buy_payment_gui_title");
-        SELL_PAYMENT_GUI_TITLE = config.getString("messages.sell_payment_gui_title");
         PAY_WITH_EMERALDS_TEXT = config.getString("messages.pay_with_emeralds_text");
         PAY_WITH_BANK_TEXT = config.getString("messages.pay_with_bank_text");
         RECEIVE_EMERALDS_TEXT = config.getString("messages.receive_emeralds_text");
@@ -178,17 +168,13 @@ public class Constants {
         RECEIVE_EMERALDS_LORE = config.getString("messages.receive_emeralds_lore");
         RECEIVE_BANK_LORE = config.getString("messages.receive_bank_lore");
 
-        PRICE_GUI_TITLE = config.getString("messages.price_gui_title");
         DEFAULT_PRICE_LORE = config.getString("messages.default_price_lore");
 
-        QUANTITY_GUI_TITLE = config.getString("messages.quantity_gui_title");
         DECREASE_64_TEXT = config.getString("messages.decrease_64_text");
         INCREASE_64_TEXT = config.getString("messages.increase_64_text");
         DECREASE_64_LORE = config.getString("messages.decrease_64_lore");
         INCREASE_64_LORE = config.getString("messages.increase_64_lore");
 
-        SHOP_TITLE = config.getString("messages.shop_title");
-        BUY_OR_SELL_TITLE = config.getString("messages.buy_or_sell_title");
         BUY_BUTTON_TEXT = config.getString("messages.buy_button_text");
         SELL_BUTTON_TEXT = config.getString("messages.sell_button_text");
         BUY_BUTTON_LORE = config.getString("messages.buy_button_lore");
