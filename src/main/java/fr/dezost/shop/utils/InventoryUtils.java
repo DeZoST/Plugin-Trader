@@ -1,6 +1,5 @@
-package fr.dezost.traderplugin.utils;
+package fr.dezost.shop.utils;
 
-import fr.dezost.traderplugin.traits.TraderTrait;
 import net.citizensnpcs.api.npc.NPC;
 import net.kyori.adventure.text.Component;
 
@@ -13,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import fr.dezost.shop.traits.TraderTrait;
 import net.citizensnpcs.api.CitizensAPI;
 
 import java.io.File;

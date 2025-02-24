@@ -1,10 +1,5 @@
-package fr.dezost.traderplugin.gui;
+package fr.dezost.shop.gui;
 
-import fr.dezost.traderplugin.TraderPlugin;
-import fr.dezost.traderplugin.traits.TraderTrait;
-import fr.dezost.traderplugin.utils.Constants;
-import fr.dezost.traderplugin.utils.InventoryUtils;
-import fr.dezost.traderplugin.utils.ItemUtils;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -12,6 +7,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import fr.dezost.shop.TraderPlugin;
+import fr.dezost.shop.traits.TraderTrait;
+import fr.dezost.shop.utils.Constants;
+import fr.dezost.shop.utils.InventoryUtils;
+import fr.dezost.shop.utils.ItemUtils;
 
 public class ShopGUI {
     private final TraderPlugin plugin;

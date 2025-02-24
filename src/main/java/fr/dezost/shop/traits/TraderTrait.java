@@ -1,13 +1,5 @@
-package fr.dezost.traderplugin.traits;
+package fr.dezost.shop.traits;
 
-import fr.dezost.traderplugin.TraderPlugin;
-import fr.dezost.traderplugin.gui.AdminGUI;
-import fr.dezost.traderplugin.gui.PriceSettingGUI;
-import fr.dezost.traderplugin.gui.QuantitySettingGUI;
-import fr.dezost.traderplugin.gui.ShopGUI;
-import fr.dezost.traderplugin.gui.PaymentMethodGUI;
-import fr.dezost.traderplugin.utils.Constants;
-import fr.dezost.traderplugin.utils.InventoryUtils;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.Trait;
@@ -17,6 +9,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import fr.dezost.shop.TraderPlugin;
+import fr.dezost.shop.gui.AdminGUI;
+import fr.dezost.shop.gui.PaymentMethodGUI;
+import fr.dezost.shop.gui.PriceSettingGUI;
+import fr.dezost.shop.gui.QuantitySettingGUI;
+import fr.dezost.shop.gui.ShopGUI;
+import fr.dezost.shop.utils.Constants;
+import fr.dezost.shop.utils.InventoryUtils;
 
 @TraitName("TraderShop")
 public class TraderTrait extends Trait {

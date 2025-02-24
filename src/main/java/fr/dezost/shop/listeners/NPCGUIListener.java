@@ -1,15 +1,5 @@
-package fr.dezost.traderplugin.listeners;
+package fr.dezost.shop.listeners;
 
-import fr.dezost.traderplugin.TraderPlugin;
-import fr.dezost.traderplugin.gui.AdminGUI;
-import fr.dezost.traderplugin.gui.NPCRemoveGUI;
-import fr.dezost.traderplugin.gui.PriceSettingGUI;
-import fr.dezost.traderplugin.gui.QuantitySettingGUI;
-import fr.dezost.traderplugin.gui.ShopGUI;
-import fr.dezost.traderplugin.traits.TraderTrait;
-import fr.dezost.traderplugin.gui.PaymentMethodGUI;
-import fr.dezost.traderplugin.utils.Constants;
-import fr.dezost.traderplugin.utils.InventoryUtils;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.kyori.adventure.text.Component;
@@ -26,6 +16,17 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import fr.dezost.shop.TraderPlugin;
+import fr.dezost.shop.gui.AdminGUI;
+import fr.dezost.shop.gui.NPCRemoveGUI;
+import fr.dezost.shop.gui.PaymentMethodGUI;
+import fr.dezost.shop.gui.PriceSettingGUI;
+import fr.dezost.shop.gui.QuantitySettingGUI;
+import fr.dezost.shop.gui.ShopGUI;
+import fr.dezost.shop.traits.TraderTrait;
+import fr.dezost.shop.utils.Constants;
+import fr.dezost.shop.utils.InventoryUtils;
 
 import java.util.List;
 import java.util.Objects;

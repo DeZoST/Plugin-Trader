@@ -1,6 +1,6 @@
-name: TraderPlugin
+name: Shop
 version: "${project.version}"
-main: fr.dezost.traderplugin.TraderPlugin
+main: fr.dezost.traderplugin.Shop
 depend: [Vault, Citizens]
 api-version: 1.21
 author: DeZoST

@@ -1,21 +1,22 @@
-package fr.dezost.traderplugin.gui;
+package fr.dezost.shop.gui;
 
-import fr.dezost.traderplugin.TraderPlugin;
-import fr.dezost.traderplugin.utils.Constants;
-import fr.dezost.traderplugin.utils.InventoryUtils;
-import fr.dezost.traderplugin.utils.ItemUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import fr.dezost.shop.TraderPlugin;
+import fr.dezost.shop.utils.Constants;
+import fr.dezost.shop.utils.InventoryUtils;
+import fr.dezost.shop.utils.ItemUtils;
+
+import static fr.dezost.shop.utils.InventoryUtils.isBorderSlot;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static fr.dezost.traderplugin.utils.InventoryUtils.isBorderSlot;
 
 public class AdminGUI {
     private final TraderPlugin plugin;

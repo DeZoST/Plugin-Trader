@@ -1,4 +1,4 @@
-package fr.dezost.traderplugin.utils;
+package fr.dezost.shop.utils;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -23,13 +23,13 @@ public class Constants {
     public static String INSTRUCTIONS_LORE_2;
 
     // AdminGUI
-    public static final String ADMIN_SHOP_TITLE = "§6§lActions Admin";
-    public static final String SELECT_ITEM_TITLE = "§6§lAjouter des articles";
-    public static final String MODIFY_ITEMS_TITLE = "§6§lModifier des articles";
-    public static final String DELETE_ITEMS_TITLE = "§6§lSupprimer des articles";
-    public static final String ADD_ITEMS_BUTTON_TEXT = "§a§lAjouter des articles";
-    public static final String MODIFY_ITEMS_BUTTON_TEXT = "§e§lModifier les articles";
-    public static final String DELETE_ITEMS_BUTTON_TEXT = "§c§lSupprimer les articles";
+    public static final String ADMIN_SHOP_TITLE = "§aActions Admin";
+    public static final String SELECT_ITEM_TITLE = "§aAjouter des articles";
+    public static final String MODIFY_ITEMS_TITLE = "§aModifier des articles";
+    public static final String DELETE_ITEMS_TITLE = "§aSupprimer des articles";
+    public static final String ADD_ITEMS_BUTTON_TEXT = "§aAjouter des articles";
+    public static final String MODIFY_ITEMS_BUTTON_TEXT = "§eModifier les articles";
+    public static final String DELETE_ITEMS_BUTTON_TEXT = "§cSupprimer les articles";
     public static String ADD_ITEMS_BUTTON_LORE;
     public static String MODIFY_ITEMS_BUTTON_LORE;
     public static String DELETE_ITEMS_BUTTON_LORE;
@@ -37,14 +37,14 @@ public class Constants {
     public static String NO_MORE_SPACE_MESSAGE;
 
     // NPCRemoveGUI
-    public static final String REMOVE_NPC_GUI_TITLE = "§6§lSupprimer NPC";
+    public static final String REMOVE_NPC_GUI_TITLE = "§aSupprimer NPC";
     public static String NPC_ITEM_NAME_PREFIX;
     public static String NPC_ID_PREFIX;
     public static String NPC_REMOVE_LORE;
 
     // PaymentMethodGUI
-    public static final String BUY_PAYMENT_GUI_TITLE = "§6§lPaiement Achat";
-    public static final String SELL_PAYMENT_GUI_TITLE = "§6§lPaiement Vente";
+    public static final String BUY_PAYMENT_GUI_TITLE = "§aPaiement Achat";
+    public static final String SELL_PAYMENT_GUI_TITLE = "§aPaiement Vente";
     public static String PAY_WITH_EMERALDS_TEXT;
     public static String PAY_WITH_BANK_TEXT;
     public static String RECEIVE_EMERALDS_TEXT;
@@ -55,19 +55,19 @@ public class Constants {
     public static String RECEIVE_BANK_LORE;
 
     // PriceSettingGUI
-    public static final String PRICE_GUI_TITLE = "§6§lDéfinir le prix";
+    public static final String PRICE_GUI_TITLE = "§aDéfinir le prix";
     public static String DEFAULT_PRICE_LORE;
 
     // QuantitySettingGUI
-    public static final String QUANTITY_GUI_TITLE = "§6§lDéfinir la quantité";
+    public static final String QUANTITY_GUI_TITLE = "§aDéfinir la quantité";
     public static String DECREASE_64_TEXT;
     public static String INCREASE_64_TEXT;
     public static String DECREASE_64_LORE;
     public static String INCREASE_64_LORE;
 
     // ShopGUI
-    public static final String SHOP_TITLE = "§6§lBoutique";
-    public static final String BUY_OR_SELL_TITLE = "§6§lAcheter ou Vendre";
+    public static final String SHOP_TITLE = "§aBoutique";
+    public static final String BUY_OR_SELL_TITLE = "§aAcheter ou Vendre";
     public static String BUY_BUTTON_TEXT;
     public static String SELL_BUTTON_TEXT;
     public static String BUY_BUTTON_LORE;

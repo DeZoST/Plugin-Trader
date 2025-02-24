@@ -1,11 +1,13 @@
-package fr.dezost.traderplugin.managers;
+package fr.dezost.shop.managers;
 
-import fr.dezost.traderplugin.traits.TraderTrait;
-import fr.dezost.traderplugin.gui.NPCRemoveGUI;
-import fr.dezost.traderplugin.utils.Constants;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.entity.Player;
+
+import fr.dezost.shop.gui.NPCRemoveGUI;
+import fr.dezost.shop.traits.TraderTrait;
+import fr.dezost.shop.utils.Constants;
+
 import org.bukkit.entity.EntityType;
 
 public class NPCManager {

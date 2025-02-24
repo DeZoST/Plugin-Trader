@@ -1,11 +1,12 @@
-package fr.dezost.traderplugin.listeners;
+package fr.dezost.shop.listeners;
 
-import fr.dezost.traderplugin.TraderPlugin;
-import fr.dezost.traderplugin.utils.Constants;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+
+import fr.dezost.shop.TraderPlugin;
+import fr.dezost.shop.utils.Constants;
 
 public class PlayerQuitListener implements Listener {
     private final TraderPlugin plugin;

@@ -1,16 +1,17 @@
-package fr.dezost.traderplugin;
+package fr.dezost.shop;
 
-import fr.dezost.traderplugin.commands.NPCCommand;
-import fr.dezost.traderplugin.commands.TraderTabCompleter;
-import fr.dezost.traderplugin.gui.*;
-import fr.dezost.traderplugin.listeners.NPCGUIListener;
-import fr.dezost.traderplugin.managers.NPCManager;
-import fr.dezost.traderplugin.traits.TraderTrait;
-import fr.dezost.traderplugin.utils.Constants;
-import fr.dezost.traderplugin.utils.InventoryUtils;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import fr.dezost.shop.commands.NPCCommand;
+import fr.dezost.shop.commands.TraderTabCompleter;
+import fr.dezost.shop.gui.*;
+import fr.dezost.shop.listeners.NPCGUIListener;
+import fr.dezost.shop.managers.NPCManager;
+import fr.dezost.shop.traits.TraderTrait;
+import fr.dezost.shop.utils.Constants;
+import fr.dezost.shop.utils.InventoryUtils;
 
 import java.util.Objects;
 

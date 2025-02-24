@@ -1,4 +1,4 @@
-package fr.dezost.traderplugin.commands;
+package fr.dezost.shop.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

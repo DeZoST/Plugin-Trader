@@ -1,4 +1,4 @@
-package fr.dezost.traderplugin.utils;
+package fr.dezost.shop.utils;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

@@ -1,15 +1,16 @@
-package fr.dezost.traderplugin.gui;
+package fr.dezost.shop.gui;
 
-import fr.dezost.traderplugin.TraderPlugin;
-import fr.dezost.traderplugin.utils.Constants;
-import fr.dezost.traderplugin.utils.InventoryUtils;
-import fr.dezost.traderplugin.utils.ItemUtils;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import fr.dezost.shop.TraderPlugin;
+import fr.dezost.shop.utils.Constants;
+import fr.dezost.shop.utils.InventoryUtils;
+import fr.dezost.shop.utils.ItemUtils;
 
 import java.util.ArrayList;
 import java.util.List;
