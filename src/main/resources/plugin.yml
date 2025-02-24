@@ -1,0 +1,26 @@
+name: TraderPlugin
+version: "${project.version}"
+main: fr.dezost.traderplugin.TraderPlugin
+depend: [Vault, Citizens]
+api-version: 1.21
+author: DeZoST
+description: Plugin to create NPCs that can trade with players
+
+commands:
+    trader:
+        description: Create and remove NPCs
+        usage: "/trader create <name> | remove"
+
+permissions:
+    trader.create:
+        description: "Allows the player to create trader NPCs"
+        default: op
+    trader.remove:
+        description: "Allows the player to remove trader NPCs"
+        default: op
+    trader.modify:
+        description: "Allows the player to modify trader NPCs"
+        default: op
+    trader.trade:
+        description: "Allows the player to trade with trader NPCs"
+        default: true
