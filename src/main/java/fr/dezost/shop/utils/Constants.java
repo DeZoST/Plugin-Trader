@@ -2,6 +2,10 @@ package fr.dezost.shop.utils;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
+/**
+ * Utility class for storing constants used throughout the plugin.
+ * This includes configurable constants loaded from the config.yml file.
+ */
 public class Constants {
     // Configurable Constants
     public static String INCREASE_1_TEXT;
@@ -130,6 +134,11 @@ public class Constants {
     public static final String UNIQUE_ID_LORE = "§7ID Unique:";
     public static final String BORDER_ITEM_DISPLAY_NAME = " ";
 
+    /**
+     * Loads configurable constants from the provided configuration file.
+     *
+     * @param config the configuration file to load constants from
+     */
     public static void loadConfig(FileConfiguration config) {
         INCREASE_1_TEXT = config.getString("messages.increase_1_text");
         INCREASE_10_TEXT = config.getString("messages.increase_10_text");

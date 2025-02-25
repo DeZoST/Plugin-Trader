@@ -19,6 +19,10 @@ import fr.dezost.shop.gui.ShopGUI;
 import fr.dezost.shop.utils.Constants;
 import fr.dezost.shop.utils.InventoryUtils;
 
+/**
+ * Trait for NPCs that act as traders.
+ * Handles the interaction and inventory management for trader NPCs.
+ */
 @TraitName("TraderShop")
 public class TraderTrait extends Trait {
     private Inventory shopInventory;
@@ -29,6 +33,9 @@ public class TraderTrait extends Trait {
     private final ShopGUI shopGUI;
     private final PaymentMethodGUI paymentMethodGUI;
 
+    /**
+     * Constructs a TraderTrait and initializes the plugin and GUIs.
+     */
     public TraderTrait() {
         super("TraderShop");
         plugin = JavaPlugin.getPlugin(TraderPlugin.class);
@@ -39,14 +46,20 @@ public class TraderTrait extends Trait {
         paymentMethodGUI = new PaymentMethodGUI(plugin);
     }
 
+    /**
+     * Called when the trait is attached to an NPC.
+     * Loads or creates the shop inventory for the NPC.
+     */
     @Override
     public void onAttach() {
+        // Check if the NPC already has an inventory
         Inventory existingInventory = this.getNPC().data().get(Constants.SHOP_INVENTORY_DATA, null);
 
         if (existingInventory != null) {
             shopInventory = existingInventory;
             plugin.getServer().getLogger().info(this.npc.getName() + Constants.INVENTORY_ALREADY_LOADED_MESSAGE);
         } else {
+            // Load the inventory from file or create a new one
             Inventory loadedInventory = InventoryUtils.loadInventory(this.getNPC());
 
             if (loadedInventory != null) {
@@ -62,6 +75,13 @@ public class TraderTrait extends Trait {
         }
     }
 
+    /**
+     * Handles right-click events on the NPC.
+     * Opens the admin GUI if the player is sneaking and is an operator, otherwise
+     * opens the shop GUI.
+     *
+     * @param event the NPCRightClickEvent
+     */
     @EventHandler
     public void onRightClick(NPCRightClickEvent event) {
         Player player = event.getClicker();
@@ -77,24 +97,37 @@ public class TraderTrait extends Trait {
         }
     }
 
+    /**
+     * Sets the shop inventory for the NPC.
+     *
+     * @param newInventory the new inventory to set
+     */
     public void setShopInventory(Inventory newInventory) {
         this.shopInventory = newInventory;
         this.getNPC().data().set(Constants.SHOP_INVENTORY_DATA, newInventory);
     }
 
+    /**
+     * Gets the shop inventory of the NPC.
+     *
+     * @return the shop inventory
+     */
     public Inventory getShopInventory() {
         return shopInventory;
     }
 
     @Override
     public void onDespawn() {
+        // No specific action needed on despawn
     }
 
     @Override
     public void onSpawn() {
+        // No specific action needed on spawn
     }
 
     @Override
     public void onRemove() {
+        // No specific action needed on remove
     }
 }

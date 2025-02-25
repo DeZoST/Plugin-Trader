@@ -14,13 +14,28 @@ import fr.dezost.shop.utils.Constants;
 import fr.dezost.shop.utils.InventoryUtils;
 import fr.dezost.shop.utils.ItemUtils;
 
+/**
+ * GUI for the NPC shop.
+ */
 public class ShopGUI {
     private final TraderPlugin plugin;
 
+    /**
+     * Constructs a ShopGUI with the specified plugin.
+     *
+     * @param plugin the plugin instance
+     */
     public ShopGUI(TraderPlugin plugin) {
         this.plugin = plugin;
     }
 
+    /**
+     * Handles item clicks in the shop GUI.
+     *
+     * @param player      the player interacting with the GUI
+     * @param event       the InventoryClickEvent
+     * @param clickedItem the clicked item
+     */
     public void handleShopItemClick(Player player, InventoryClickEvent event, ItemStack clickedItem) {
         if (event.getClickedInventory() != null) {
             if (event.getClickedInventory() == event.getView().getTopInventory()) {
@@ -34,6 +49,12 @@ public class ShopGUI {
         event.setCancelled(true);
     }
 
+    /**
+     * Opens the shop GUI for the player.
+     *
+     * @param player the player to open the GUI for
+     * @param npc    the NPC whose shop to open
+     */
     public void openShop(Player player, NPC npc) {
         TraderTrait traderTrait = npc.getOrAddTrait(TraderTrait.class);
         if (traderTrait != null) {
@@ -68,6 +89,12 @@ public class ShopGUI {
         }
     }
 
+    /**
+     * Creates the buy or sell GUI for the specified item.
+     *
+     * @param item the item to buy or sell
+     * @return the created buy or sell GUI
+     */
     private Inventory createBuyOrSellGUI(ItemStack item) {
         Inventory gui = Bukkit.createInventory(null, 27,
                 net.kyori.adventure.text.Component.text(Constants.BUY_OR_SELL_TITLE));
@@ -76,6 +103,12 @@ public class ShopGUI {
         return gui;
     }
 
+    /**
+     * Sets up the buy or sell buttons in the GUI.
+     *
+     * @param gui  the GUI to set up the buttons in
+     * @param item the item to buy or sell
+     */
     private void setupBuyOrSellButtons(Inventory gui, ItemStack item) {
         gui.setItem(11,
                 ItemUtils.createGuiItem(Material.GOLD_INGOT, Constants.BUY_BUTTON_TEXT, Constants.BUY_BUTTON_LORE));

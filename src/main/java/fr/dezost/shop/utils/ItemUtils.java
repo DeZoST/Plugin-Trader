@@ -11,8 +11,19 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Utility class for handling ItemStack operations.
+ */
 public class ItemUtils {
 
+    /**
+     * Creates an ItemStack with the specified material, name, and lore.
+     *
+     * @param material  the material of the item
+     * @param name      the display name of the item
+     * @param loreLines the lore lines of the item
+     * @return the created ItemStack
+     */
     public static ItemStack createGuiItem(Material material, String name, String... loreLines) {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
@@ -28,6 +39,12 @@ public class ItemUtils {
         return item;
     }
 
+    /**
+     * Gets the price of an item from its lore.
+     *
+     * @param item the item to get the price from
+     * @return the price of the item, or 0 if no price is found
+     */
     public static int getItemPrice(ItemStack item) {
         if (item == null || !item.hasItemMeta() || !item.getItemMeta().hasLore()) {
             return 0;
@@ -50,6 +67,13 @@ public class ItemUtils {
         return 0;
     }
 
+    /**
+     * Gets the count of a specific item in a player's inventory.
+     *
+     * @param player the player to check the inventory of
+     * @param item   the item to count
+     * @return the count of the item in the player's inventory
+     */
     public static int getItemCount(Player player, ItemStack item) {
         int count = 0;
         for (ItemStack is : player.getInventory().getContents()) {
@@ -60,6 +84,13 @@ public class ItemUtils {
         return count;
     }
 
+    /**
+     * Removes a specific quantity of an item from a player's inventory.
+     *
+     * @param player   the player to remove the items from
+     * @param item     the item to remove
+     * @param quantity the quantity to remove
+     */
     public static void removeItems(Player player, ItemStack item, int quantity) {
         int remaining = quantity;
         for (ItemStack is : player.getInventory().getContents()) {
@@ -79,6 +110,12 @@ public class ItemUtils {
         }
     }
 
+    /**
+     * Adds a lore line to an item.
+     *
+     * @param item     the item to add the lore to
+     * @param loreLine the lore line to add
+     */
     public static void addItemLore(ItemStack item, String loreLine) {
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {

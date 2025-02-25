@@ -21,10 +21,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Utility class for handling inventory operations related to NPC shops.
+ */
 public class InventoryUtils {
 
     private static JavaPlugin plugin;
 
+    /**
+     * Applies a border style to the inventory.
+     *
+     * @param inventory the inventory to style
+     * @param title     the title of the inventory
+     */
     public static void applyInventoryStyle(Inventory inventory, String title) {
         int size = inventory.getSize();
         for (int i = 0; i < size; i++) {
@@ -34,6 +43,11 @@ public class InventoryUtils {
         }
     }
 
+    /**
+     * Creates a border item for the inventory.
+     *
+     * @return the created border item
+     */
     private static ItemStack createBorderItem() {
         ItemStack item = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemMeta meta = item.getItemMeta();
@@ -44,12 +58,24 @@ public class InventoryUtils {
         return item;
     }
 
+    /**
+     * Gets the shop inventory of the NPC the player is interacting with.
+     *
+     * @param player the player interacting with the NPC
+     * @return the shop inventory of the NPC
+     */
     public static Inventory getNPCShopInventory(Player player) {
         NPC npc = CitizensAPI.getNPCRegistry()
-                .getById(player.getMetadata(Constants.INTERACTING_NPC_METADATA).getFirst().asInt());
+                .getById(player.getMetadata(Constants.INTERACTING_NPC_METADATA).get(0).asInt());
         return npc.data().get(Constants.SHOP_INVENTORY_DATA, null);
     }
 
+    /**
+     * Saves the inventory of an NPC to a file.
+     *
+     * @param npc       the NPC whose inventory is to be saved
+     * @param inventory the inventory to save
+     */
     public static void saveInventory(NPC npc, Inventory inventory) {
         if (!CitizensAPI.getNPCRegistry().isNPC(npc.getEntity())) {
             System.out.println(String.format(Constants.NPC_DOES_NOT_EXIST_MESSAGE, npc.getId()));
@@ -71,6 +97,12 @@ public class InventoryUtils {
         }
     }
 
+    /**
+     * Loads the inventory of an NPC from a file.
+     *
+     * @param npc the NPC whose inventory is to be loaded
+     * @return the loaded inventory
+     */
     public static Inventory loadInventory(NPC npc) {
         File file = new File(Constants.INVENTORY_FOLDER_PATH, npc.getId() + ".yml");
         if (!file.exists()) {
@@ -95,6 +127,9 @@ public class InventoryUtils {
         return inventory;
     }
 
+    /**
+     * Saves all NPC inventories to files.
+     */
     public static void saveAllInventories() {
         System.out.println(Constants.SAVING_ALL_INVENTORIES_MESSAGE);
         for (NPC npc : CitizensAPI.getNPCRegistry()) {
@@ -106,6 +141,9 @@ public class InventoryUtils {
         System.out.println(Constants.ALL_INVENTORIES_SAVED_MESSAGE);
     }
 
+    /**
+     * Loads all NPC inventories from files.
+     */
     public static void loadAllInventories() {
         File folder = new File(Constants.INVENTORY_FOLDER_PATH);
         if (!folder.exists()) {
@@ -114,7 +152,7 @@ public class InventoryUtils {
 
         System.out.println(String.format(Constants.LOADING_INVENTORIES_MESSAGE, folder.getAbsolutePath()));
 
-        for (File file : folder.listFiles()) {
+        for (File file : Objects.requireNonNull(folder.listFiles())) {
             if (file.isFile() && file.getName().endsWith(".yml")) {
                 System.out.println(String.format(Constants.PROCESSING_FILE_MESSAGE, file.getName()));
                 int npcId = Integer.parseInt(file.getName().replace(".yml", ""));
@@ -142,6 +180,12 @@ public class InventoryUtils {
         }
     }
 
+    /**
+     * Checks if the given inventory title is recognized by the plugin.
+     *
+     * @param inventoryTitle the title of the inventory
+     * @return true if the inventory title is recognized, otherwise false
+     */
     public static boolean isRecognizedInventory(String inventoryTitle) {
         return inventoryTitle.equals(Constants.ADMIN_SHOP_TITLE) ||
                 inventoryTitle.equals(Constants.SELECT_ITEM_TITLE) ||
@@ -156,10 +200,24 @@ public class InventoryUtils {
                 inventoryTitle.equals(Constants.REMOVE_NPC_GUI_TITLE);
     }
 
+    /**
+     * Checks if the given display name represents a price adjustment button.
+     *
+     * @param displayName the display name to check
+     * @return true if the display name represents a price adjustment button,
+     *         otherwise false
+     */
     public static boolean isPriceAdjustmentButton(String displayName) {
         return displayName.contains("+") || displayName.contains("-");
     }
 
+    /**
+     * Adjusts the price of an item in the inventory.
+     *
+     * @param player     the player adjusting the price
+     * @param inventory  the inventory containing the item
+     * @param adjustment the adjustment to apply to the price
+     */
     public static void adjustPrice(Player player, Inventory inventory, String adjustment) {
         ItemStack item = inventory.getItem(13);
         if (item == null || item.getType() == Material.AIR)
@@ -186,6 +244,13 @@ public class InventoryUtils {
         }
     }
 
+    /**
+     * Adjusts the quantity of an item in the inventory.
+     *
+     * @param player     the player adjusting the quantity
+     * @param inventory  the inventory containing the item
+     * @param adjustment the adjustment to apply to the quantity
+     */
     public static void adjustQuantity(Player player, Inventory inventory, String adjustment) {
         ItemStack item = inventory.getItem(13);
         if (item == null || item.getType() == Material.AIR)
@@ -209,6 +274,13 @@ public class InventoryUtils {
         player.sendMessage(String.format(Constants.NEW_QUANTITY_SET_MESSAGE, newQuantity));
     }
 
+    /**
+     * Updates the price of a shop item in the inventory.
+     *
+     * @param modifiedItem the item with the modified price
+     * @param index        the index of the item in the inventory
+     * @param inventory    the inventory containing the item
+     */
     public static void updateShopItemPrice(ItemStack modifiedItem, int index, Inventory inventory) {
         if (index >= 0 && index < inventory.getSize()) {
             ItemMeta meta = modifiedItem.getItemMeta();
@@ -228,6 +300,13 @@ public class InventoryUtils {
         }
     }
 
+    /**
+     * Adds a new item to the shop inventory.
+     *
+     * @param newItem   the new item to add
+     * @param inventory the inventory to add the item to
+     * @param npc       the NPC whose shop inventory is being modified
+     */
     public static void addNewShopItem(ItemStack newItem, Inventory inventory, NPC npc) {
         if (isInventoryFull(inventory) && inventory.getSize() < 54) {
             inventory = resizeInventory(inventory, npc);
@@ -263,6 +342,12 @@ public class InventoryUtils {
         }
     }
 
+    /**
+     * Checks if the inventory is full.
+     *
+     * @param inventory the inventory to check
+     * @return true if the inventory is full, otherwise false
+     */
     private static boolean isInventoryFull(Inventory inventory) {
         for (ItemStack item : inventory.getContents()) {
             if (item == null || item.getType() == Material.AIR) {
@@ -272,6 +357,13 @@ public class InventoryUtils {
         return true;
     }
 
+    /**
+     * Checks if the given slot is a border slot in the inventory.
+     *
+     * @param slot          the slot to check
+     * @param inventorySize the size of the inventory
+     * @return true if the slot is a border slot, otherwise false
+     */
     public static boolean isBorderSlot(int slot, int inventorySize) {
         int rows = inventorySize / 9;
         int lastRowStart = (rows - 1) * 9;
@@ -283,6 +375,13 @@ public class InventoryUtils {
         return slot % 9 == 0 || slot % 9 == 8;
     }
 
+    /**
+     * Resizes the inventory of an NPC.
+     *
+     * @param inventory the inventory to resize
+     * @param npc       the NPC whose inventory is being resized
+     * @return the resized inventory
+     */
     public static Inventory resizeInventory(Inventory inventory, NPC npc) {
 
         int newSize = Math.min(inventory.getSize() + 9, 54);
@@ -306,10 +405,23 @@ public class InventoryUtils {
         return newInventory;
     }
 
+    /**
+     * Calculates the size of the inventory based on the number of items.
+     *
+     * @param itemCount the number of items
+     * @return the calculated inventory size
+     */
     public static int calculateInventorySize(int itemCount) {
         return Math.min(54, ((itemCount / 9) + 1) * 9);
     }
 
+    /**
+     * Creates a shop inventory for an NPC.
+     *
+     * @param size the size of the inventory
+     * @param npc  the NPC for whom the inventory is created
+     * @return the created shop inventory
+     */
     public static Inventory createShopInventory(int size, NPC npc) {
         String title = Constants.SHOP_TITLE;
         Inventory inventory = Bukkit.createInventory(null, size, Component.text(title));
@@ -317,12 +429,27 @@ public class InventoryUtils {
         return inventory;
     }
 
+    /**
+     * Gives an item to a player.
+     *
+     * @param player   the player to give the item to
+     * @param item     the item to give
+     * @param quantity the quantity of the item to give
+     */
     public static void giveItem(Player player, ItemStack item, int quantity) {
         ItemStack itemToGive = item.clone();
         itemToGive.setAmount(quantity);
         player.getInventory().addItem(itemToGive);
     }
 
+    /**
+     * Removes a specific quantity of an item from a player's inventory.
+     *
+     * @param player   the player to remove the items from
+     * @param item     the item to remove
+     * @param quantity the quantity to remove
+     * @return the number of items removed
+     */
     public static int removeItemsFromInventory(Player player, ItemStack item, int quantity) {
         int itemsRemoved = 0;
         for (ItemStack invItem : player.getInventory().getContents()) {

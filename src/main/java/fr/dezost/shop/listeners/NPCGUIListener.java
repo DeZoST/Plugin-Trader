@@ -31,6 +31,11 @@ import fr.dezost.shop.utils.InventoryUtils;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Listener for handling NPC GUI interactions.
+ * Manages the various GUI actions for NPCs, including admin actions, item
+ * modifications, and payment methods.
+ */
 public class NPCGUIListener implements Listener {
     private final AdminGUI adminGUI;
     private final PriceSettingGUI priceSettingGUI;
@@ -40,6 +45,17 @@ public class NPCGUIListener implements Listener {
     private final NPCRemoveGUI npcRemoveGUI;
     private final TraderPlugin plugin;
 
+    /**
+     * Constructs an NPCGUIListener with the specified plugin and GUIs.
+     *
+     * @param plugin             the plugin instance
+     * @param adminGUI           the admin GUI
+     * @param priceSettingGUI    the price setting GUI
+     * @param quantitySettingGUI the quantity setting GUI
+     * @param shopGUI            the shop GUI
+     * @param paymentMethodGUI   the payment method GUI
+     * @param npcRemoveGUI       the NPC remove GUI
+     */
     public NPCGUIListener(TraderPlugin plugin, AdminGUI adminGUI, PriceSettingGUI priceSettingGUI,
             QuantitySettingGUI quantitySettingGUI, ShopGUI shopGUI, PaymentMethodGUI paymentMethodGUI,
             NPCRemoveGUI npcRemoveGUI) {
@@ -52,6 +68,13 @@ public class NPCGUIListener implements Listener {
         this.npcRemoveGUI = npcRemoveGUI;
     }
 
+    /**
+     * Handles inventory click events.
+     * Manages the various GUI actions based on the inventory title and clicked
+     * item.
+     *
+     * @param event the InventoryClickEvent
+     */
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player))
@@ -59,9 +82,11 @@ public class NPCGUIListener implements Listener {
 
         String inventoryTitle = event.getView().getTitle();
 
+        // Check if the inventory title is recognized
         if (!InventoryUtils.isRecognizedInventory(inventoryTitle)) {
             return;
         }
+        // Check if the player has metadata indicating interaction with an NPC
         if (!player.hasMetadata(Constants.INTERACTING_NPC_METADATA)) {
             event.setCancelled(true);
             return;
@@ -73,11 +98,13 @@ public class NPCGUIListener implements Listener {
             return;
         }
 
+        // Prevent interaction with the player's own inventory
         if (event.getClickedInventory() == player.getInventory()) {
             event.setCancelled(true);
             return;
         }
 
+        // Handle different inventory titles
         switch (inventoryTitle) {
             case Constants.ADMIN_SHOP_TITLE:
                 handleAdminActions(player, event, clickedItem);
@@ -115,6 +142,13 @@ public class NPCGUIListener implements Listener {
         }
     }
 
+    /**
+     * Handles the removal of an NPC.
+     *
+     * @param player      the player interacting with the GUI
+     * @param event       the InventoryClickEvent
+     * @param clickedItem the clicked item
+     */
     private void handleRemoveNPC(Player player, InventoryClickEvent event, ItemStack clickedItem) {
         ItemMeta itemMeta = clickedItem.getItemMeta();
         if (itemMeta != null) {
@@ -151,6 +185,13 @@ public class NPCGUIListener implements Listener {
         event.setCancelled(true);
     }
 
+    /**
+     * Handles quantity setting in the GUI.
+     *
+     * @param player      the player interacting with the GUI
+     * @param event       the InventoryClickEvent
+     * @param clickedItem the clicked item
+     */
     private void handleQuantitySetting(Player player, InventoryClickEvent event, ItemStack clickedItem) {
         Component displayNameComponent = Objects.requireNonNull(clickedItem.getItemMeta()).displayName();
         if (displayNameComponent != null) {
@@ -177,6 +218,13 @@ public class NPCGUIListener implements Listener {
         event.setCancelled(true);
     }
 
+    /**
+     * Handles admin actions in the GUI.
+     *
+     * @param player      the player interacting with the GUI
+     * @param event       the InventoryClickEvent
+     * @param clickedItem the clicked item
+     */
     private void handleAdminActions(Player player, InventoryClickEvent event, ItemStack clickedItem) {
         if (!player.hasPermission("trader.modify")) {
             player.sendMessage(Constants.NO_PERMISSION_MODIFY_NPCS_MESSAGE);
@@ -200,6 +248,13 @@ public class NPCGUIListener implements Listener {
         event.setCancelled(true);
     }
 
+    /**
+     * Handles adding items in the GUI.
+     *
+     * @param player      the player interacting with the GUI
+     * @param event       the InventoryClickEvent
+     * @param clickedItem the clicked item
+     */
     private void handleAddItems(Player player, InventoryClickEvent event, ItemStack clickedItem) {
         if (clickedItem.getType() != Material.GRAY_STAINED_GLASS_PANE && clickedItem.getType() != Material.AIR) {
             quantitySettingGUI.openQuantitySettingGUI(player, clickedItem);
@@ -207,6 +262,13 @@ public class NPCGUIListener implements Listener {
         event.setCancelled(true);
     }
 
+    /**
+     * Handles deleting items in the GUI.
+     *
+     * @param player      the player interacting with the GUI
+     * @param event       the InventoryClickEvent
+     * @param clickedItem the clicked item
+     */
     private void handleDeleteItems(Player player, InventoryClickEvent event, ItemStack clickedItem) {
         if (clickedItem.getType() != Material.GRAY_STAINED_GLASS_PANE && clickedItem.getType() != Material.AIR) {
             Inventory npcShopInventory = InventoryUtils.getNPCShopInventory(player);
@@ -223,6 +285,13 @@ public class NPCGUIListener implements Listener {
         event.setCancelled(true);
     }
 
+    /**
+     * Handles modifying items in the GUI.
+     *
+     * @param player      the player interacting with the GUI
+     * @param event       the InventoryClickEvent
+     * @param clickedItem the clicked item
+     */
     private void handleModifyItems(Player player, InventoryClickEvent event, ItemStack clickedItem) {
         if (clickedItem.getType() != Material.GRAY_STAINED_GLASS_PANE && clickedItem.getType() != Material.AIR) {
             Inventory npcShopInventory = InventoryUtils.getNPCShopInventory(player);
@@ -240,6 +309,13 @@ public class NPCGUIListener implements Listener {
         event.setCancelled(true);
     }
 
+    /**
+     * Handles price setting in the GUI.
+     *
+     * @param player      the player interacting with the GUI
+     * @param event       the InventoryClickEvent
+     * @param clickedItem the clicked item
+     */
     private void handlePriceSetting(Player player, InventoryClickEvent event, ItemStack clickedItem) {
         Component displayNameComponent = Objects.requireNonNull(clickedItem.getItemMeta()).displayName();
         if (displayNameComponent != null) {
@@ -278,6 +354,13 @@ public class NPCGUIListener implements Listener {
         event.setCancelled(true);
     }
 
+    /**
+     * Handles buy or sell selection in the GUI.
+     *
+     * @param player      the player interacting with the GUI
+     * @param event       the InventoryClickEvent
+     * @param clickedItem the clicked item
+     */
     private void handleBuyOrSellSelection(Player player, InventoryClickEvent event, ItemStack clickedItem) {
         Component displayNameComponent = Objects.requireNonNull(clickedItem.getItemMeta()).displayName();
         if (displayNameComponent != null) {
@@ -297,11 +380,24 @@ public class NPCGUIListener implements Listener {
         event.setCancelled(true);
     }
 
+    /**
+     * Handles payment method selection in the GUI.
+     *
+     * @param player      the player interacting with the GUI
+     * @param event       the InventoryClickEvent
+     * @param clickedItem the clicked item
+     */
     private void handlePaymentMethod(Player player, InventoryClickEvent event, ItemStack clickedItem) {
         event.setCancelled(true);
         player.sendMessage(Constants.FEATURE_NOT_RELEASED_MESSAGE);
     }
 
+    /**
+     * Handles player quit events.
+     * Removes metadata related to NPC interaction when a player quits.
+     *
+     * @param event the PlayerQuitEvent
+     */
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();

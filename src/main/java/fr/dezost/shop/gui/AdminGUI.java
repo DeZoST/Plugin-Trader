@@ -11,36 +11,52 @@ import fr.dezost.shop.utils.Constants;
 import fr.dezost.shop.utils.InventoryUtils;
 import fr.dezost.shop.utils.ItemUtils;
 
-import static fr.dezost.shop.utils.InventoryUtils.isBorderSlot;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * GUI for admin actions related to NPCs.
+ */
 public class AdminGUI {
     private final TraderPlugin plugin;
 
+    /**
+     * Constructs an AdminGUI with the specified plugin.
+     *
+     * @param plugin the plugin instance
+     */
     public AdminGUI(TraderPlugin plugin) {
         this.plugin = plugin;
     }
 
+    /**
+     * Opens the admin action selection GUI for the player.
+     *
+     * @param player the player to open the GUI for
+     */
     public void openAdminActionSelectionGUI(Player player) {
-        Inventory adminActionInventory = plugin.getServer().createInventory(null, 9,
+        Inventory adminActionInventory = plugin.getServer().createInventory(null, 27,
                 net.kyori.adventure.text.Component.text(Constants.ADMIN_SHOP_TITLE));
         InventoryUtils.applyInventoryStyle(adminActionInventory, Constants.ADMIN_SHOP_TITLE);
-        adminActionInventory.setItem(2,
+
+        adminActionInventory.setItem(11,
                 ItemUtils.createGuiItem(Material.EMERALD_BLOCK, Constants.ADD_ITEMS_BUTTON_TEXT,
                         Constants.ADD_ITEMS_BUTTON_LORE));
-        adminActionInventory.setItem(4,
-                ItemUtils.createGuiItem(Material.GOLD_BLOCK, Constants.MODIFY_ITEMS_BUTTON_TEXT,
-                        Constants.MODIFY_ITEMS_BUTTON_LORE));
-        adminActionInventory.setItem(6,
+        adminActionInventory.setItem(13, ItemUtils.createGuiItem(Material.ANVIL, Constants.MODIFY_ITEMS_BUTTON_TEXT,
+                Constants.MODIFY_ITEMS_BUTTON_LORE));
+        adminActionInventory.setItem(15,
                 ItemUtils.createGuiItem(Material.REDSTONE_BLOCK, Constants.DELETE_ITEMS_BUTTON_TEXT,
                         Constants.DELETE_ITEMS_BUTTON_LORE));
         player.openInventory(adminActionInventory);
     }
 
+    /**
+     * Opens the player's inventory to add items to the NPC shop.
+     *
+     * @param player the player to open the inventory for
+     */
     public void openPlayerInventoryToAdd(Player player) {
         Inventory playerInventory = plugin.getServer().createInventory(null, 54,
                 net.kyori.adventure.text.Component.text(Constants.SELECT_ITEM_TITLE));
@@ -66,6 +82,12 @@ public class AdminGUI {
         player.openInventory(playerInventory);
     }
 
+    /**
+     * Opens the modify items GUI for the player.
+     *
+     * @param player           the player to open the GUI for
+     * @param npcShopInventory the NPC shop inventory to modify
+     */
     public void openModifyItemsGUI(Player player, Inventory npcShopInventory) {
         Inventory modifyItemsInventory = plugin.getServer().createInventory(null, 54,
                 net.kyori.adventure.text.Component.text(Constants.MODIFY_ITEMS_TITLE));
@@ -76,8 +98,9 @@ public class AdminGUI {
         for (ItemStack item : npcShopInventory.getContents()) {
             if (item != null && item.getType() != Material.AIR && item.getType() != Material.GRAY_STAINED_GLASS_PANE) {
 
-                while (slot < modifyItemsInventory.getSize() && (isBorderSlot(slot, modifyItemsInventory.getSize())
-                        || modifyItemsInventory.getItem(slot) != null)) {
+                while (slot < modifyItemsInventory.getSize()
+                        && (InventoryUtils.isBorderSlot(slot, modifyItemsInventory.getSize())
+                                || modifyItemsInventory.getItem(slot) != null)) {
                     slot++;
                 }
                 if (slot >= modifyItemsInventory.getSize()) {
@@ -94,6 +117,12 @@ public class AdminGUI {
         player.openInventory(modifyItemsInventory);
     }
 
+    /**
+     * Opens the shop inventory for deletion.
+     *
+     * @param player           the player to open the inventory for
+     * @param npcShopInventory the NPC shop inventory to delete items from
+     */
     public void openShopForDeletion(Player player, Inventory npcShopInventory) {
         Inventory deleteItemsInventory = plugin.getServer().createInventory(null, 54,
                 net.kyori.adventure.text.Component.text(Constants.DELETE_ITEMS_TITLE));
@@ -104,8 +133,9 @@ public class AdminGUI {
         for (ItemStack item : npcShopInventory.getContents()) {
             if (item != null && item.getType() != Material.AIR && item.getType() != Material.GRAY_STAINED_GLASS_PANE) {
 
-                while (slot < deleteItemsInventory.getSize() && (isBorderSlot(slot, deleteItemsInventory.getSize())
-                        || deleteItemsInventory.getItem(slot) != null)) {
+                while (slot < deleteItemsInventory.getSize()
+                        && (InventoryUtils.isBorderSlot(slot, deleteItemsInventory.getSize())
+                                || deleteItemsInventory.getItem(slot) != null)) {
                     slot++;
                 }
                 if (slot >= deleteItemsInventory.getSize()) {

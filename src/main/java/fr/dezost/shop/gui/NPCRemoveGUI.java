@@ -15,18 +15,36 @@ import fr.dezost.shop.utils.ItemUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * GUI for removing NPCs.
+ */
 public class NPCRemoveGUI {
     private final TraderPlugin plugin;
 
+    /**
+     * Constructs an NPCRemoveGUI with the specified plugin.
+     *
+     * @param plugin the plugin instance
+     */
     public NPCRemoveGUI(TraderPlugin plugin) {
         this.plugin = plugin;
     }
 
+    /**
+     * Opens the remove NPC GUI for the player.
+     *
+     * @param player the player to open the GUI for
+     */
     public void openRemoveNPCGUI(Player player) {
         Inventory removeNPCGUI = createRemoveNPCInventory();
         player.openInventory(removeNPCGUI);
     }
 
+    /**
+     * Creates the inventory for removing NPCs.
+     *
+     * @return the created inventory
+     */
     private Inventory createRemoveNPCInventory() {
         List<NPC> npcs = new ArrayList<>();
         CitizensAPI.getNPCRegistry().sorted().forEach(npcs::add);

@@ -13,13 +13,29 @@ import fr.dezost.shop.utils.Constants;
 import fr.dezost.shop.utils.InventoryUtils;
 import fr.dezost.shop.utils.ItemUtils;
 
+/**
+ * GUI for selecting the payment method for transactions.
+ */
 public class PaymentMethodGUI {
-        private JavaPlugin plugin;
+        private final JavaPlugin plugin;
 
+        /**
+         * Constructs a PaymentMethodGUI with the specified plugin.
+         *
+         * @param plugin the plugin instance
+         */
         public PaymentMethodGUI(JavaPlugin plugin) {
                 this.plugin = plugin;
         }
 
+        /**
+         * Opens the payment method GUI for the player.
+         *
+         * @param player   the player to open the GUI for
+         * @param item     the item involved in the transaction
+         * @param quantity the quantity of the item
+         * @param isBuying true if the transaction is a purchase, false if it is a sale
+         */
         public void openPaymentMethodGUI(Player player, ItemStack item, int quantity, boolean isBuying) {
                 String transactionType = isBuying ? "buy" : "sell";
                 player.setMetadata("transactionType",
