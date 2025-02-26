@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import fr.dezost.shop.traits.TraderTrait;
+import fr.dezost.shop.traits.ShopTrait;
 import net.citizensnpcs.api.CitizensAPI;
 
 import java.io.File;
@@ -117,7 +117,7 @@ public class InventoryUtils {
         }
 
         npc.data().set(Constants.SHOP_INVENTORY_DATA, inventory);
-        TraderTrait traderTrait = npc.getOrAddTrait(TraderTrait.class);
+        ShopTrait traderTrait = npc.getOrAddTrait(ShopTrait.class);
         if (traderTrait != null) {
             traderTrait.setShopInventory(inventory);
         } else {
@@ -170,7 +170,7 @@ public class InventoryUtils {
                         System.out.println(String.format(Constants.NO_INVENTORY_FOUND_CREATING_DEFAULT_MESSAGE, npcId));
                         Inventory defaultInventory = createShopInventory(27, npc);
                         npc.data().set("shopInventory", defaultInventory);
-                        TraderTrait traderTrait = npc.getOrAddTrait(TraderTrait.class);
+                        ShopTrait traderTrait = npc.getOrAddTrait(ShopTrait.class);
                         if (traderTrait != null) {
                             traderTrait.setShopInventory(defaultInventory);
                         }
@@ -335,7 +335,7 @@ public class InventoryUtils {
             }
         }
 
-        TraderTrait traderTrait = npc.getOrAddTrait(TraderTrait.class);
+        ShopTrait traderTrait = npc.getOrAddTrait(ShopTrait.class);
         if (traderTrait != null) {
             traderTrait.setShopInventory(inventory);
         }
@@ -396,7 +396,7 @@ public class InventoryUtils {
             }
         }
 
-        TraderTrait traderTrait = npc.getOrAddTrait(TraderTrait.class);
+        ShopTrait traderTrait = npc.getOrAddTrait(ShopTrait.class);
         if (traderTrait != null) {
             traderTrait.setShopInventory(newInventory);
         }

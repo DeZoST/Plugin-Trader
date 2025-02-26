@@ -5,7 +5,7 @@ import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.entity.Player;
 
 import fr.dezost.shop.gui.NPCRemoveGUI;
-import fr.dezost.shop.traits.TraderTrait;
+import fr.dezost.shop.traits.ShopTrait;
 import fr.dezost.shop.utils.Constants;
 
 import org.bukkit.entity.EntityType;
@@ -40,7 +40,7 @@ public class NPCManager {
         String npcName = args[1];
         // Create and spawn the NPC
         NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, npcName);
-        npc.addTrait(TraderTrait.class);
+        npc.addTrait(ShopTrait.class);
         npc.spawn(player.getLocation());
 
         // Send a confirmation message to the player

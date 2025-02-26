@@ -5,11 +5,11 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.dezost.shop.commands.NPCCommand;
-import fr.dezost.shop.commands.TraderTabCompleter;
+import fr.dezost.shop.commands.ShopTabCompleter;
 import fr.dezost.shop.gui.*;
 import fr.dezost.shop.listeners.NPCGUIListener;
 import fr.dezost.shop.managers.NPCManager;
-import fr.dezost.shop.traits.TraderTrait;
+import fr.dezost.shop.traits.ShopTrait;
 import fr.dezost.shop.utils.Constants;
 import fr.dezost.shop.utils.InventoryUtils;
 import fr.dezost.shop.utils.CheckUtils;
@@ -18,7 +18,7 @@ import fr.dezost.shop.utils.CheckUtils;
  * Main class for the TraderPlugin.
  * Handles the initialization and setup of the plugin.
  */
-public class TraderPlugin extends JavaPlugin {
+public class ShopPlugin extends JavaPlugin {
     private AdminGUI adminGUI;
     private PriceSettingGUI priceSettingGUI;
     private QuantitySettingGUI quantitySettingGUI;
@@ -45,7 +45,7 @@ public class TraderPlugin extends JavaPlugin {
         initializeManagers();
 
         // Register commands
-        CheckUtils.registerCommand(this, "trader", new NPCCommand(npcManager), new TraderTabCompleter());
+        CheckUtils.registerCommand(this, "trader", new NPCCommand(npcManager), new ShopTabCompleter());
 
         // Register event listeners
         registerEventListeners();
@@ -136,6 +136,6 @@ public class TraderPlugin extends JavaPlugin {
      */
     private void registerNPCTrait() {
         net.citizensnpcs.api.CitizensAPI.getTraitFactory()
-                .registerTrait(net.citizensnpcs.api.trait.TraitInfo.create(TraderTrait.class));
+                .registerTrait(net.citizensnpcs.api.trait.TraitInfo.create(ShopTrait.class));
     }
 }

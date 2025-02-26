@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import fr.dezost.shop.TraderPlugin;
+import fr.dezost.shop.ShopPlugin;
 import fr.dezost.shop.utils.Constants;
 import fr.dezost.shop.utils.InventoryUtils;
 import fr.dezost.shop.utils.ItemUtils;
@@ -19,14 +19,14 @@ import java.util.List;
  * GUI for removing NPCs.
  */
 public class NPCRemoveGUI {
-    private final TraderPlugin plugin;
+    private final ShopPlugin plugin;
 
     /**
      * Constructs an NPCRemoveGUI with the specified plugin.
      *
      * @param plugin the plugin instance
      */
-    public NPCRemoveGUI(TraderPlugin plugin) {
+    public NPCRemoveGUI(ShopPlugin plugin) {
         this.plugin = plugin;
     }
 

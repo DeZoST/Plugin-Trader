@@ -8,8 +8,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import fr.dezost.shop.TraderPlugin;
-import fr.dezost.shop.traits.TraderTrait;
+import fr.dezost.shop.ShopPlugin;
+import fr.dezost.shop.traits.ShopTrait;
 import fr.dezost.shop.utils.CheckUtils;
 import fr.dezost.shop.utils.Constants;
 import fr.dezost.shop.utils.InventoryUtils;
@@ -19,14 +19,14 @@ import fr.dezost.shop.utils.ItemUtils;
  * GUI for the NPC shop.
  */
 public class ShopGUI {
-    private final TraderPlugin plugin;
+    private final ShopPlugin plugin;
 
     /**
      * Constructs a ShopGUI with the specified plugin.
      *
      * @param plugin the plugin instance
      */
-    public ShopGUI(TraderPlugin plugin) {
+    public ShopGUI(ShopPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -57,7 +57,7 @@ public class ShopGUI {
      * @param npc    the NPC whose shop to open
      */
     public void openShop(Player player, NPC npc) {
-        TraderTrait traderTrait = npc.getOrAddTrait(TraderTrait.class);
+        ShopTrait traderTrait = npc.getOrAddTrait(ShopTrait.class);
         if (traderTrait != null) {
             Inventory shopInventory = traderTrait.getShopInventory();
             Inventory sortedInventory = Bukkit.createInventory(null, shopInventory.getSize(),

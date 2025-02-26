@@ -6,7 +6,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import fr.dezost.shop.TraderPlugin;
+import fr.dezost.shop.ShopPlugin;
 import fr.dezost.shop.utils.CheckUtils;
 import fr.dezost.shop.utils.Constants;
 import fr.dezost.shop.utils.InventoryUtils;
@@ -20,14 +20,14 @@ import java.util.List;
  * GUI for setting the price of items.
  */
 public class PriceSettingGUI {
-        private final TraderPlugin plugin;
+        private final ShopPlugin plugin;
 
         /**
          * Constructs a PriceSettingGUI with the specified plugin.
          *
          * @param plugin the plugin instance
          */
-        public PriceSettingGUI(TraderPlugin plugin) {
+        public PriceSettingGUI(ShopPlugin plugin) {
                 this.plugin = plugin;
         }
 

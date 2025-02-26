@@ -5,7 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import fr.dezost.shop.TraderPlugin;
+import fr.dezost.shop.ShopPlugin;
 import fr.dezost.shop.utils.CheckUtils;
 import fr.dezost.shop.utils.Constants;
 
@@ -14,14 +14,14 @@ import fr.dezost.shop.utils.Constants;
  * Cleans up metadata when a player quits the game.
  */
 public class PlayerQuitListener implements Listener {
-    private final TraderPlugin plugin;
+    private final ShopPlugin plugin;
 
     /**
      * Constructs a PlayerQuitListener with the specified plugin.
      *
      * @param plugin the plugin instance
      */
-    public PlayerQuitListener(TraderPlugin plugin) {
+    public PlayerQuitListener(ShopPlugin plugin) {
         this.plugin = plugin;
     }
 

@@ -17,14 +17,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import fr.dezost.shop.TraderPlugin;
+import fr.dezost.shop.ShopPlugin;
 import fr.dezost.shop.gui.AdminGUI;
 import fr.dezost.shop.gui.NPCRemoveGUI;
 import fr.dezost.shop.gui.PaymentMethodGUI;
 import fr.dezost.shop.gui.PriceSettingGUI;
 import fr.dezost.shop.gui.QuantitySettingGUI;
 import fr.dezost.shop.gui.ShopGUI;
-import fr.dezost.shop.traits.TraderTrait;
+import fr.dezost.shop.traits.ShopTrait;
 import fr.dezost.shop.utils.CheckUtils;
 import fr.dezost.shop.utils.Constants;
 import fr.dezost.shop.utils.InventoryUtils;
@@ -44,7 +44,7 @@ public class NPCGUIListener implements Listener {
     private final ShopGUI shopGUI;
     private final PaymentMethodGUI paymentMethodGUI;
     private final NPCRemoveGUI npcRemoveGUI;
-    private final TraderPlugin plugin;
+    private final ShopPlugin plugin;
 
     /**
      * Constructs an NPCGUIListener with the specified plugin and GUIs.
@@ -57,7 +57,7 @@ public class NPCGUIListener implements Listener {
      * @param paymentMethodGUI   the payment method GUI
      * @param npcRemoveGUI       the NPC remove GUI
      */
-    public NPCGUIListener(TraderPlugin plugin, AdminGUI adminGUI, PriceSettingGUI priceSettingGUI,
+    public NPCGUIListener(ShopPlugin plugin, AdminGUI adminGUI, PriceSettingGUI priceSettingGUI,
             QuantitySettingGUI quantitySettingGUI, ShopGUI shopGUI, PaymentMethodGUI paymentMethodGUI,
             NPCRemoveGUI npcRemoveGUI) {
         this.plugin = plugin;
@@ -202,7 +202,7 @@ public class NPCGUIListener implements Listener {
                 ItemStack item = inventory.getItem(13);
                 if (item != null) {
                     player.setMetadata(Constants.SELECTED_ITEM_METADATA,
-                            new FixedMetadataValue(JavaPlugin.getPlugin(TraderPlugin.class), item));
+                            new FixedMetadataValue(JavaPlugin.getPlugin(ShopPlugin.class), item));
                     priceSettingGUI.openPriceSettingGUI(player, item);
                 }
             }
@@ -339,7 +339,7 @@ public class NPCGUIListener implements Listener {
                                 InventoryUtils.addNewShopItem(item, shopInventory, npc);
                                 shopInventory = npc.data().get(Constants.SHOP_INVENTORY_DATA, shopInventory);
                             }
-                            TraderTrait traderTrait = npc.getOrAddTrait(TraderTrait.class);
+                            ShopTrait traderTrait = npc.getOrAddTrait(ShopTrait.class);
                             if (traderTrait != null) {
                                 traderTrait.setShopInventory(shopInventory);
                             }

@@ -6,7 +6,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import fr.dezost.shop.TraderPlugin;
+import fr.dezost.shop.ShopPlugin;
 import fr.dezost.shop.utils.CheckUtils;
 import fr.dezost.shop.utils.Constants;
 import fr.dezost.shop.utils.InventoryUtils;
@@ -21,14 +21,14 @@ import java.util.Set;
  * GUI for admin actions related to NPCs.
  */
 public class AdminGUI {
-    private final TraderPlugin plugin;
+    private final ShopPlugin plugin;
 
     /**
      * Constructs an AdminGUI with the specified plugin.
      *
      * @param plugin the plugin instance
      */
-    public AdminGUI(TraderPlugin plugin) {
+    public AdminGUI(ShopPlugin plugin) {
         this.plugin = plugin;
     }
 
