@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 import fr.dezost.shop.TraderPlugin;
 import fr.dezost.shop.traits.TraderTrait;
+import fr.dezost.shop.utils.CheckUtils;
 import fr.dezost.shop.utils.Constants;
 import fr.dezost.shop.utils.InventoryUtils;
 import fr.dezost.shop.utils.ItemUtils;
@@ -39,7 +40,7 @@ public class ShopGUI {
     public void handleShopItemClick(Player player, InventoryClickEvent event, ItemStack clickedItem) {
         if (event.getClickedInventory() != null) {
             if (event.getClickedInventory() == event.getView().getTopInventory()) {
-                if (event.getClick().isLeftClick()) {
+                if (event.getClick().isLeftClick() && CheckUtils.isClickedItemValid(clickedItem)) {
                     ItemStack item = clickedItem.clone();
                     Inventory buyOrSellGUI = createBuyOrSellGUI(item);
                     player.openInventory(buyOrSellGUI);
@@ -66,8 +67,7 @@ public class ShopGUI {
             int slot = 0;
 
             for (ItemStack item : shopInventory.getContents()) {
-                if (item != null && item.getType() != Material.AIR
-                        && item.getType() != Material.GRAY_STAINED_GLASS_PANE) {
+                if (!CheckUtils.isItemNullOrAir(item) && item.getType() != Material.GRAY_STAINED_GLASS_PANE) {
                     while (slot < sortedInventory.getSize()
                             && (InventoryUtils.isBorderSlot(slot, sortedInventory.getSize())
                                     || sortedInventory.getItem(slot) != null)) {

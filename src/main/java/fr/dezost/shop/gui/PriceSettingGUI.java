@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.dezost.shop.TraderPlugin;
+import fr.dezost.shop.utils.CheckUtils;
 import fr.dezost.shop.utils.Constants;
 import fr.dezost.shop.utils.InventoryUtils;
 import fr.dezost.shop.utils.ItemUtils;
@@ -52,16 +53,18 @@ public class PriceSettingGUI {
         private void populatePriceSettingInventory(Inventory priceGUI, ItemStack item) {
                 InventoryUtils.applyInventoryStyle(priceGUI, Constants.PRICE_GUI_TITLE);
 
-                ItemMeta meta = item.getItemMeta();
-                if (meta != null) {
-                        List<Component> lore = meta.lore();
-                        if (lore == null) {
-                                lore = new ArrayList<>();
-                        }
-                        if (lore.isEmpty() || !lore.get(0).toString().contains(Constants.PRICE_PREFIX)) {
-                                lore.add(0, Component.text(Constants.DEFAULT_PRICE_LORE));
-                                meta.lore(lore);
-                                item.setItemMeta(meta);
+                if (CheckUtils.hasItemMeta(item)) {
+                        ItemMeta meta = item.getItemMeta();
+                        if (CheckUtils.hasItemLore(meta)) {
+                                List<Component> lore = meta.lore();
+                                if (lore == null) {
+                                        lore = new ArrayList<>();
+                                }
+                                if (lore.isEmpty() || !lore.get(0).toString().contains(Constants.PRICE_PREFIX)) {
+                                        lore.add(0, Component.text(Constants.DEFAULT_PRICE_LORE));
+                                        meta.lore(lore);
+                                        item.setItemMeta(meta);
+                                }
                         }
                 }
 

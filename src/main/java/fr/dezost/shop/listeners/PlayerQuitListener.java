@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import fr.dezost.shop.TraderPlugin;
+import fr.dezost.shop.utils.CheckUtils;
 import fr.dezost.shop.utils.Constants;
 
 /**
@@ -35,11 +36,11 @@ public class PlayerQuitListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         // Remove metadata related to NPC interaction
-        if (player.hasMetadata(Constants.INTERACTING_NPC_METADATA)) {
+        if (CheckUtils.hasMetadata(player, Constants.INTERACTING_NPC_METADATA)) {
             player.removeMetadata(Constants.INTERACTING_NPC_METADATA, plugin);
         }
         // Remove metadata related to selected item index
-        if (player.hasMetadata(Constants.SELECTED_ITEM_INDEX_METADATA)) {
+        if (CheckUtils.hasMetadata(player, Constants.SELECTED_ITEM_INDEX_METADATA)) {
             player.removeMetadata(Constants.SELECTED_ITEM_INDEX_METADATA, plugin);
         }
     }

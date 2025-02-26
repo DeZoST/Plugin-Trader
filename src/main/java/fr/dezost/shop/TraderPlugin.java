@@ -12,8 +12,7 @@ import fr.dezost.shop.managers.NPCManager;
 import fr.dezost.shop.traits.TraderTrait;
 import fr.dezost.shop.utils.Constants;
 import fr.dezost.shop.utils.InventoryUtils;
-
-import java.util.Objects;
+import fr.dezost.shop.utils.CheckUtils;
 
 /**
  * Main class for the TraderPlugin.
@@ -42,20 +41,14 @@ public class TraderPlugin extends JavaPlugin {
         Constants.loadConfig(getConfig());
 
         // Initialize GUIs and managers
-        adminGUI = new AdminGUI(this);
-        priceSettingGUI = new PriceSettingGUI(this);
-        quantitySettingGUI = new QuantitySettingGUI(this);
-        shopGUI = new ShopGUI(this);
-        paymentMethodGUI = new PaymentMethodGUI(this);
-        npcRemoveGUI = new NPCRemoveGUI(this);
-        npcManager = new NPCManager(npcRemoveGUI);
+        initializeGUIs();
+        initializeManagers();
 
         // Register commands
-        getCommand("trader").setExecutor(new NPCCommand(npcManager));
+        CheckUtils.registerCommand(this, "trader", new NPCCommand(npcManager), new TraderTabCompleter());
 
         // Register event listeners
-        getServer().getPluginManager().registerEvents(new NPCGUIListener(this, adminGUI, priceSettingGUI,
-                quantitySettingGUI, shopGUI, paymentMethodGUI, npcRemoveGUI), this);
+        registerEventListeners();
 
         // Setup economy integration
         if (!setupEconomy()) {
@@ -65,12 +58,7 @@ public class TraderPlugin extends JavaPlugin {
         }
 
         // Register NPC trait
-        net.citizensnpcs.api.CitizensAPI.getTraitFactory()
-                .registerTrait(net.citizensnpcs.api.trait.TraitInfo.create(TraderTrait.class));
-
-        // Register tab completer
-        Objects.requireNonNull(getCommand("trader")).setExecutor(new NPCCommand(npcManager));
-        Objects.requireNonNull(getCommand("trader")).setTabCompleter(new TraderTabCompleter());
+        registerNPCTrait();
 
         // Load all NPC inventories after a delay
         getServer().getScheduler().runTaskLater(this, InventoryUtils::loadAllInventories, 40L);
@@ -114,5 +102,40 @@ public class TraderPlugin extends JavaPlugin {
      */
     public static Economy getEconomy() {
         return econ;
+    }
+
+    /**
+     * Initializes the GUIs.
+     */
+    private void initializeGUIs() {
+        adminGUI = new AdminGUI(this);
+        priceSettingGUI = new PriceSettingGUI(this);
+        quantitySettingGUI = new QuantitySettingGUI(this);
+        shopGUI = new ShopGUI(this);
+        paymentMethodGUI = new PaymentMethodGUI(this);
+        npcRemoveGUI = new NPCRemoveGUI(this);
+    }
+
+    /**
+     * Initializes the managers.
+     */
+    private void initializeManagers() {
+        npcManager = new NPCManager(npcRemoveGUI);
+    }
+
+    /**
+     * Registers the event listeners.
+     */
+    private void registerEventListeners() {
+        getServer().getPluginManager().registerEvents(new NPCGUIListener(this, adminGUI, priceSettingGUI,
+                quantitySettingGUI, shopGUI, paymentMethodGUI, npcRemoveGUI), this);
+    }
+
+    /**
+     * Registers the NPC trait.
+     */
+    private void registerNPCTrait() {
+        net.citizensnpcs.api.CitizensAPI.getTraitFactory()
+                .registerTrait(net.citizensnpcs.api.trait.TraitInfo.create(TraderTrait.class));
     }
 }

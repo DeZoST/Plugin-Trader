@@ -220,11 +220,11 @@ public class InventoryUtils {
      */
     public static void adjustPrice(Player player, Inventory inventory, String adjustment) {
         ItemStack item = inventory.getItem(13);
-        if (item == null || item.getType() == Material.AIR)
+        if (CheckUtils.isItemNullOrAir(item))
             return;
 
         ItemMeta meta = item.getItemMeta();
-        if (meta != null && meta.hasLore()) {
+        if (CheckUtils.hasItemLore(meta)) {
             List<Component> lore = meta.lore();
             if (lore != null && !lore.isEmpty()) {
                 String priceLine = lore.get(0).toString();
@@ -253,7 +253,7 @@ public class InventoryUtils {
      */
     public static void adjustQuantity(Player player, Inventory inventory, String adjustment) {
         ItemStack item = inventory.getItem(13);
-        if (item == null || item.getType() == Material.AIR)
+        if (CheckUtils.isItemNullOrAir(item))
             return;
 
         int currentQuantity = item.getAmount();
@@ -264,7 +264,6 @@ public class InventoryUtils {
 
         if (newQuantity > maxStackSize) {
             newQuantity = maxStackSize;
-
         } else if (newQuantity < 1) {
             newQuantity = 1;
         }

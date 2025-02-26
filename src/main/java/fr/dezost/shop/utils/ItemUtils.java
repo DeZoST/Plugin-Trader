@@ -27,7 +27,7 @@ public class ItemUtils {
     public static ItemStack createGuiItem(Material material, String name, String... loreLines) {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
-        if (meta != null) {
+        if (CheckUtils.hasItemMeta(item)) {
             meta.displayName(Component.text(name));
             List<Component> lore = new ArrayList<>();
             for (String loreLine : loreLines) {
@@ -46,7 +46,7 @@ public class ItemUtils {
      * @return the price of the item, or 0 if no price is found
      */
     public static int getItemPrice(ItemStack item) {
-        if (item == null || !item.hasItemMeta() || !item.getItemMeta().hasLore()) {
+        if (!CheckUtils.hasItemMeta(item)) {
             return 0;
         }
         ItemMeta meta = item.getItemMeta();
@@ -77,7 +77,7 @@ public class ItemUtils {
     public static int getItemCount(Player player, ItemStack item) {
         int count = 0;
         for (ItemStack is : player.getInventory().getContents()) {
-            if (is != null && is.isSimilar(item)) {
+            if (CheckUtils.hasItemMeta(is) && is.isSimilar(item)) {
                 count += is.getAmount();
             }
         }
@@ -94,7 +94,7 @@ public class ItemUtils {
     public static void removeItems(Player player, ItemStack item, int quantity) {
         int remaining = quantity;
         for (ItemStack is : player.getInventory().getContents()) {
-            if (is != null && is.isSimilar(item)) {
+            if (CheckUtils.hasItemMeta(is) && is.isSimilar(item)) {
                 int amount = is.getAmount();
                 if (amount > remaining) {
                     is.setAmount(amount - remaining);
@@ -118,7 +118,7 @@ public class ItemUtils {
      */
     public static void addItemLore(ItemStack item, String loreLine) {
         ItemMeta meta = item.getItemMeta();
-        if (meta != null) {
+        if (CheckUtils.hasItemMeta(item)) {
             List<Component> lore = new ArrayList<>();
             NamespacedKey loreKey = new NamespacedKey(Constants.PLUGIN_NAMESPACE, Constants.LORE_KEY);
             if (meta.getPersistentDataContainer().has(loreKey, PersistentDataType.STRING)) {

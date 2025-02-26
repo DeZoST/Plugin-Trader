@@ -25,6 +25,7 @@ import fr.dezost.shop.gui.PriceSettingGUI;
 import fr.dezost.shop.gui.QuantitySettingGUI;
 import fr.dezost.shop.gui.ShopGUI;
 import fr.dezost.shop.traits.TraderTrait;
+import fr.dezost.shop.utils.CheckUtils;
 import fr.dezost.shop.utils.Constants;
 import fr.dezost.shop.utils.InventoryUtils;
 
@@ -83,17 +84,16 @@ public class NPCGUIListener implements Listener {
         String inventoryTitle = event.getView().getTitle();
 
         // Check if the inventory title is recognized
-        if (!InventoryUtils.isRecognizedInventory(inventoryTitle)) {
+        if (!CheckUtils.isRecognizedInventory(inventoryTitle)) {
             return;
         }
         // Check if the player has metadata indicating interaction with an NPC
-        if (!player.hasMetadata(Constants.INTERACTING_NPC_METADATA)) {
+        if (!CheckUtils.hasMetadata(player, Constants.INTERACTING_NPC_METADATA)) {
             event.setCancelled(true);
             return;
         }
         ItemStack clickedItem = event.getCurrentItem();
-        if (clickedItem == null || clickedItem.getType() == Material.AIR
-                || clickedItem.getType() == Material.GRAY_STAINED_GLASS_PANE) {
+        if (!CheckUtils.isClickedItemValid(clickedItem)) {
             event.setCancelled(true);
             return;
         }
@@ -150,10 +150,10 @@ public class NPCGUIListener implements Listener {
      * @param clickedItem the clicked item
      */
     private void handleRemoveNPC(Player player, InventoryClickEvent event, ItemStack clickedItem) {
-        ItemMeta itemMeta = clickedItem.getItemMeta();
-        if (itemMeta != null) {
-            List<Component> lore = itemMeta.lore();
-            if (lore != null) {
+        if (CheckUtils.hasItemMeta(clickedItem)) {
+            ItemMeta itemMeta = clickedItem.getItemMeta();
+            if (CheckUtils.hasItemLore(itemMeta)) {
+                List<Component> lore = itemMeta.lore();
                 for (Component line : lore) {
                     String lineText = LegacyComponentSerializer.legacySection().serialize(line);
 
@@ -226,7 +226,7 @@ public class NPCGUIListener implements Listener {
      * @param clickedItem the clicked item
      */
     private void handleAdminActions(Player player, InventoryClickEvent event, ItemStack clickedItem) {
-        if (!player.hasPermission("trader.modify")) {
+        if (!CheckUtils.hasPermission(player, "trader.modify")) {
             player.sendMessage(Constants.NO_PERMISSION_MODIFY_NPCS_MESSAGE);
             event.setCancelled(true);
             return;
@@ -256,7 +256,7 @@ public class NPCGUIListener implements Listener {
      * @param clickedItem the clicked item
      */
     private void handleAddItems(Player player, InventoryClickEvent event, ItemStack clickedItem) {
-        if (clickedItem.getType() != Material.GRAY_STAINED_GLASS_PANE && clickedItem.getType() != Material.AIR) {
+        if (CheckUtils.isClickedItemValid(clickedItem)) {
             quantitySettingGUI.openQuantitySettingGUI(player, clickedItem);
         }
         event.setCancelled(true);
@@ -270,7 +270,7 @@ public class NPCGUIListener implements Listener {
      * @param clickedItem the clicked item
      */
     private void handleDeleteItems(Player player, InventoryClickEvent event, ItemStack clickedItem) {
-        if (clickedItem.getType() != Material.GRAY_STAINED_GLASS_PANE && clickedItem.getType() != Material.AIR) {
+        if (CheckUtils.isClickedItemValid(clickedItem)) {
             Inventory npcShopInventory = InventoryUtils.getNPCShopInventory(player);
             if (npcShopInventory != null) {
                 int slot = event.getSlot();
@@ -293,7 +293,7 @@ public class NPCGUIListener implements Listener {
      * @param clickedItem the clicked item
      */
     private void handleModifyItems(Player player, InventoryClickEvent event, ItemStack clickedItem) {
-        if (clickedItem.getType() != Material.GRAY_STAINED_GLASS_PANE && clickedItem.getType() != Material.AIR) {
+        if (CheckUtils.isClickedItemValid(clickedItem)) {
             Inventory npcShopInventory = InventoryUtils.getNPCShopInventory(player);
             if (npcShopInventory != null) {
                 int slot = event.getSlot();
@@ -317,38 +317,41 @@ public class NPCGUIListener implements Listener {
      * @param clickedItem the clicked item
      */
     private void handlePriceSetting(Player player, InventoryClickEvent event, ItemStack clickedItem) {
-        Component displayNameComponent = Objects.requireNonNull(clickedItem.getItemMeta()).displayName();
-        if (displayNameComponent != null) {
-            String displayName = LegacyComponentSerializer.legacySection().serialize(displayNameComponent);
+        if (CheckUtils.hasItemMeta(clickedItem)) {
+            Component displayNameComponent = clickedItem.getItemMeta().displayName();
+            if (displayNameComponent != null) {
+                String displayName = LegacyComponentSerializer.legacySection().serialize(displayNameComponent);
 
-            Inventory inventory = event.getClickedInventory();
-            if (displayName.equals(Constants.CONFIRM_TEXT)) {
-                assert inventory != null;
-                ItemStack item = inventory.getItem(13);
-                if (item != null) {
-                    NPC npc = CitizensAPI.getNPCRegistry()
-                            .getById(player.getMetadata(Constants.INTERACTING_NPC_METADATA).get(0).asInt());
-                    Inventory shopInventory = npc.data().get(Constants.SHOP_INVENTORY_DATA, null);
-                    if (shopInventory != null) {
-                        if (player.hasMetadata(Constants.SELECTED_ITEM_INDEX_METADATA)) {
-                            int index = player.getMetadata(Constants.SELECTED_ITEM_INDEX_METADATA).get(0).asInt();
-                            shopInventory.setItem(index, item);
-                            player.removeMetadata(Constants.SELECTED_ITEM_INDEX_METADATA, plugin);
-                        } else {
-                            InventoryUtils.addNewShopItem(item, shopInventory, npc);
-                            shopInventory = npc.data().get(Constants.SHOP_INVENTORY_DATA, shopInventory);
+                Inventory inventory = event.getClickedInventory();
+                if (displayName.equals(Constants.CONFIRM_TEXT)) {
+                    assert inventory != null;
+                    ItemStack item = inventory.getItem(13);
+                    if (item != null) {
+                        NPC npc = CitizensAPI.getNPCRegistry()
+                                .getById(player.getMetadata(Constants.INTERACTING_NPC_METADATA).get(0).asInt());
+                        Inventory shopInventory = npc.data().get(Constants.SHOP_INVENTORY_DATA, null);
+                        if (shopInventory != null) {
+                            if (player.hasMetadata(Constants.SELECTED_ITEM_INDEX_METADATA)) {
+                                int index = player.getMetadata(Constants.SELECTED_ITEM_INDEX_METADATA).get(0).asInt();
+                                shopInventory.setItem(index, item);
+                                player.removeMetadata(Constants.SELECTED_ITEM_INDEX_METADATA, plugin);
+                            } else {
+                                InventoryUtils.addNewShopItem(item, shopInventory, npc);
+                                shopInventory = npc.data().get(Constants.SHOP_INVENTORY_DATA, shopInventory);
+                            }
+                            TraderTrait traderTrait = npc.getOrAddTrait(TraderTrait.class);
+                            if (traderTrait != null) {
+                                traderTrait.setShopInventory(shopInventory);
+                            }
+                            player.closeInventory();
                         }
-                        TraderTrait traderTrait = npc.getOrAddTrait(TraderTrait.class);
-                        if (traderTrait != null) {
-                            traderTrait.setShopInventory(shopInventory);
-                        }
-                        player.closeInventory();
                     }
+                } else if (InventoryUtils.isPriceAdjustmentButton(displayName)) {
+                    InventoryUtils.adjustPrice(player, Objects.requireNonNull(event.getClickedInventory()),
+                            displayName);
+                } else {
+                    event.setCancelled(true);
                 }
-            } else if (InventoryUtils.isPriceAdjustmentButton(displayName)) {
-                InventoryUtils.adjustPrice(player, Objects.requireNonNull(event.getClickedInventory()), displayName);
-            } else {
-                event.setCancelled(true);
             }
         }
         event.setCancelled(true);
@@ -362,19 +365,21 @@ public class NPCGUIListener implements Listener {
      * @param clickedItem the clicked item
      */
     private void handleBuyOrSellSelection(Player player, InventoryClickEvent event, ItemStack clickedItem) {
-        Component displayNameComponent = Objects.requireNonNull(clickedItem.getItemMeta()).displayName();
-        if (displayNameComponent != null) {
-            String displayName = LegacyComponentSerializer.legacySection().serialize(displayNameComponent);
-            if (displayName.equals(Constants.BUY_BUTTON_TEXT)) {
-                ItemStack item = Objects.requireNonNull(event.getClickedInventory()).getItem(13);
-                int quantity = (item != null) ? item.getAmount() : 0;
-                paymentMethodGUI.openPaymentMethodGUI(player, item, quantity, true);
-            } else if (displayName.equals(Constants.SELL_BUTTON_TEXT)) {
-                ItemStack item = Objects.requireNonNull(event.getClickedInventory()).getItem(13);
-                int quantity = (item != null) ? item.getAmount() : 0;
-                paymentMethodGUI.openPaymentMethodGUI(player, item, quantity, false);
-            } else {
-                event.setCancelled(true);
+        if (CheckUtils.hasItemMeta(clickedItem)) {
+            Component displayNameComponent = clickedItem.getItemMeta().displayName();
+            if (displayNameComponent != null) {
+                String displayName = LegacyComponentSerializer.legacySection().serialize(displayNameComponent);
+                if (displayName.equals(Constants.BUY_BUTTON_TEXT)) {
+                    ItemStack item = Objects.requireNonNull(event.getClickedInventory()).getItem(13);
+                    int quantity = (item != null) ? item.getAmount() : 0;
+                    paymentMethodGUI.openPaymentMethodGUI(player, item, quantity, true);
+                } else if (displayName.equals(Constants.SELL_BUTTON_TEXT)) {
+                    ItemStack item = Objects.requireNonNull(event.getClickedInventory()).getItem(13);
+                    int quantity = (item != null) ? item.getAmount() : 0;
+                    paymentMethodGUI.openPaymentMethodGUI(player, item, quantity, false);
+                } else {
+                    event.setCancelled(true);
+                }
             }
         }
         event.setCancelled(true);

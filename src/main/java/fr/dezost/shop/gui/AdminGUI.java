@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.dezost.shop.TraderPlugin;
+import fr.dezost.shop.utils.CheckUtils;
 import fr.dezost.shop.utils.Constants;
 import fr.dezost.shop.utils.InventoryUtils;
 import fr.dezost.shop.utils.ItemUtils;
@@ -64,7 +65,7 @@ public class AdminGUI {
 
         Set<Material> addedItems = new HashSet<>();
         for (ItemStack item : player.getInventory().getContents()) {
-            if (item != null && item.getType() != Material.AIR) {
+            if (!CheckUtils.isItemNullOrAir(item)) {
                 if (!addedItems.contains(item.getType())) {
                     ItemStack displayItem = item.clone();
                     displayItem.setAmount(1);
@@ -96,7 +97,7 @@ public class AdminGUI {
         int slot = 0;
 
         for (ItemStack item : npcShopInventory.getContents()) {
-            if (item != null && item.getType() != Material.AIR && item.getType() != Material.GRAY_STAINED_GLASS_PANE) {
+            if (!CheckUtils.isItemNullOrAir(item) && item.getType() != Material.GRAY_STAINED_GLASS_PANE) {
 
                 while (slot < modifyItemsInventory.getSize()
                         && (InventoryUtils.isBorderSlot(slot, modifyItemsInventory.getSize())
@@ -131,7 +132,7 @@ public class AdminGUI {
         int slot = 0;
 
         for (ItemStack item : npcShopInventory.getContents()) {
-            if (item != null && item.getType() != Material.AIR && item.getType() != Material.GRAY_STAINED_GLASS_PANE) {
+            if (!CheckUtils.isItemNullOrAir(item) && item.getType() != Material.GRAY_STAINED_GLASS_PANE) {
 
                 while (slot < deleteItemsInventory.getSize()
                         && (InventoryUtils.isBorderSlot(slot, deleteItemsInventory.getSize())

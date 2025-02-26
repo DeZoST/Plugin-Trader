@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import fr.dezost.shop.utils.CheckUtils;
 import fr.dezost.shop.utils.Constants;
 import fr.dezost.shop.utils.InventoryUtils;
 import fr.dezost.shop.utils.ItemUtils;
@@ -74,11 +75,10 @@ public class QuantitySettingGUI {
          * @param item the item to set the quantity for
          */
         private void setupQuantityAdjustmentButtons(Inventory gui, ItemStack item) {
-
-                ItemMeta meta = item.getItemMeta();
-                if (meta != null) {
-                        List<Component> lore = meta.lore();
-                        if (lore != null) {
+                if (CheckUtils.hasItemMeta(item)) {
+                        ItemMeta meta = item.getItemMeta();
+                        if (CheckUtils.hasItemLore(meta)) {
+                                List<Component> lore = meta.lore();
                                 List<Component> customLore = new ArrayList<>();
                                 for (Component line : lore) {
                                         String lineText = line.toString();
